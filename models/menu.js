@@ -1,5 +1,6 @@
 import { sequelize } from "../database/database.js";
 import { DataTypes } from "sequelize";
+import { Orders } from "./orders.js"
 
 
 export const Menu = sequelize.define('menu', {
@@ -13,3 +14,12 @@ export const Menu = sequelize.define('menu', {
     }
 });
 
+Menu.hasMany(Orders, {
+    foreignKey:"menu_num",
+    sourceKey:"menu_num"
+})
+
+Orders.belongsTo(Menu, {
+    foreignKey: "menu_num",
+    targetKey: "menu_num"
+});

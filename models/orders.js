@@ -1,5 +1,6 @@
 import { sequelize } from "../database/database.js";
-import { DataTypes } from "sequelize";
+import { DataTypes, HasMany } from "sequelize";
+
 
 export const Orders = sequelize.define('orders', {
     serial_order: {
@@ -48,3 +49,26 @@ export const Orders = sequelize.define('orders', {
         allowNull: false
     }
 });
+
+/* Orders.hasMany(Staff, {
+    foreignKey: "",
+    sourceKey: ""
+})
+
+Staff.belongsToMany(Orders, {
+    foreignKey: "",
+    targetKey: ""
+}); 
+
+
+
+
+Orders.hasMany(Menu, {
+    foreignKey:"menu_num",
+    sourceKey:"menu_num"
+})
+
+Menu.belongsToMany(Orders, {
+    foreignKey: "menu_num",
+    targetKey: "menu_num"
+}); */

@@ -1,6 +1,6 @@
 import { sequelize } from "../database/database.js";
 import { DataTypes } from "sequelize";
-
+import { Orders } from "./orders.js"
 
 export const Staff = sequelize.define('staff', {
     uuid_staff:{
@@ -25,3 +25,15 @@ export const Staff = sequelize.define('staff', {
         allowNull: false
     }
 })
+
+Staff.hasMany(Orders, {
+    foreignKey: "chef",
+    foreignKey: "waiter",
+    sourceKey: "uuid_staff"
+})
+
+Orders.belongsTo(Staff, {
+    foreignKey: "chef",
+    foreignKey: "waiter",
+    targetKey: "uuid_staff"
+});
