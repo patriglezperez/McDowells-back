@@ -1,7 +1,12 @@
-const router = require("express").Router();
+import {Router} from 'express';
+const router = Router();
 
-router.use('/staff', require('./staff'));
-router.use('/orders', require('./orders'));
+//routes: 
+import staff from "./staff.js"
+import orders from "./orders.js"
+
+router.use('/staff', staff);
+router.use('/orders', orders);
 
 
-module.exports = router;
+export default router;

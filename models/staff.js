@@ -28,12 +28,28 @@ export const Staff = sequelize.define('staff', {
 
 Staff.hasMany(Orders, {
     foreignKey: "chef",
-    foreignKey: "waiter",
     sourceKey: "uuid_staff"
 })
 
-Orders.belongsTo(Staff, {
+Staff.hasMany(Orders, {
+    foreignKey: "waiter", 
+    sourceKey: "uuid_staff"
+})
+
+
+
+Orders.belongsToMany(Staff, {
+    through: OrdersStaff,
     foreignKey: "chef",
-    foreignKey: "waiter",
-    targetKey: "uuid_staff"
+    targetId: "uuid_staff"
 });
+
+Orders.belongsToMany(Staff, {
+    through: OrdersStaff,
+    foreignKey: "waiter",
+    targetId: "uuid_staff"
+});
+
+//one-to-one order-menu
+//many to many staff-order
+

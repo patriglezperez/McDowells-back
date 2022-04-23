@@ -1,6 +1,7 @@
 import { sequelize } from "../database/database.js";
 import { DataTypes, HasMany } from "sequelize";
-
+import {Staff} from './staff.js';
+import {Menu} from './menu.js'
 
 export const Orders = sequelize.define('orders', {
     serial_order: {
@@ -50,25 +51,36 @@ export const Orders = sequelize.define('orders', {
     }
 });
 
-/* Orders.hasMany(Staff, {
-    foreignKey: "",
-    sourceKey: ""
+
+Staff.hasMany(Orders, {
+    foreignKey: "chef",
+    sourceKey: "uuid_staff"
 })
 
-Staff.belongsToMany(Orders, {
-    foreignKey: "",
-    targetKey: ""
-}); 
+Staff.hasMany(Orders, {
+    foreignKey: "waiter", 
+    sourceKey: "uuid_staff"
+})
+
+Orders.belongsToMany(Staff, {
+    through: OrdersStaff,
+    foreignKey: "chef",
+    targetId: "uuid_staff"
+});
+
+Orders.belongsToMany(Staff, {
+    through: OrdersStaff,
+    foreignKey: "waiter",
+    targetId: "uuid_staff"
+});
 
 
-
-
-Orders.hasMany(Menu, {
+Menu.hasOne(Orders, {
     foreignKey:"menu_num",
     sourceKey:"menu_num"
 })
 
-Menu.belongsToMany(Orders, {
+Orders.belongsTo(Menu, {
     foreignKey: "menu_num",
-    targetKey: "menu_num"
-}); */
+    targetid: "menu_num"
+});

@@ -14,12 +14,12 @@ export const Menu = sequelize.define('menu', {
     }
 });
 
-Menu.hasMany(Orders, {
+Menu.hasOne(Orders, {
     foreignKey:"menu_num",
     sourceKey:"menu_num"
 })
 
 Orders.belongsTo(Menu, {
     foreignKey: "menu_num",
-    targetKey: "menu_num"
+    targetid: "menu_num"
 });

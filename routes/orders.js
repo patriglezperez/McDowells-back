@@ -1,14 +1,29 @@
-const router = require("express").Router();
+import {Router} from 'express';
+const router = Router();
 
-router.get('/:id', require('../controllers/orders/getOrder'));
-router.get('/active', require('../controllers/orders/getStatus')); 
-router.get('/delivered', require('../controllers/orders/getDeliveredDate')); 
+// routes: GET
+import getOrder from "../controllers/orders/getOrder.js"
+import getStatus from "../controllers/orders/getStatus.js"
+import getDeliveredDate from "../controllers/orders/getDeliveredDate.js"
+
+//routes: PUT
+import putPaused from "../controllers/orders/putPaused.js "
+import putCancelled from "../controllers/orders/putCancelled.js "
+import putDelivered from "../controllers/orders/putDelivered.js "
+
+//routes: POST
+import postNewOrder from "../controllers/orders/postNewOrder.js"
+
+//ROUTER
+router.get('/:id', getOrder);
+router.get('/active', getStatus); 
+router.get('/delivered', getDeliveredDate); 
  
-router.put('/stop/:id', require('../controllers/orders/putPaused'));
-router.put('/cancel/:id', require('../controllers/orders/putCancelled'));
-router.put('/finish/:id', require('../controllers/orders/putDelivered'));
+router.put('/stop/:id', putPaused);
+router.put('/cancel/:id', putCancelled);
+router.put('/finish/:id', putDelivered);
 
-router.post('/new', require('../controllers/orders/postNewOrder')); 
+router.post('/new', postNewOrder); 
 
 
-module.exports = router;
+export default router;
