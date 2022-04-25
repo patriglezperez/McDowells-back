@@ -10,8 +10,8 @@ async function postNewOrder(req, res) {
         return orderDay;
     }
 
+    // we retrieve order day and insert the order
     async function checkOrders(newOrders) {
-
         let checkOrdersDay; 
         const orderDay = await recoverOrderDay(); // recover the next available order day.
         /* if (newOrders.length === 1) {
@@ -46,7 +46,7 @@ async function postNewOrder(req, res) {
         const statuOrder = await checkOrders(newOrders); // 
 
         if (statuOrder !== 'false') {
-            res.status(201).json(); /// check res
+            res.status(201).json({'orders': statuOrder}); /// check res
         } else {
             res.status(204).json("Error"); /// check res
         }
