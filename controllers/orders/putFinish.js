@@ -1,4 +1,3 @@
-
 const ordersManager = require('../../managers/ordersManager');
 
 async function putCancelled(req, res) {

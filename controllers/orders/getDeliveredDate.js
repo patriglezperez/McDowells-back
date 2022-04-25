@@ -7,7 +7,7 @@ async function getDeliveredDate(req, res) {
     try {
         const orders = new ordersManager;
         const deliveredDay = await orders.getByDate(dateDayNow);
-        if (deliveredDay !== []) {
+        if (deliveredDay) {
             res.json({"deliveredDay": deliveredDay});
         } else {
             res.status(404).json("Not found");

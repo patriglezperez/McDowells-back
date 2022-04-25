@@ -45,7 +45,7 @@ async function postNewOrder(req, res) {
         const newOrders = req.params.Order;  
         const statuOrder = await checkOrders(newOrders); // 
 
-        if (statuOrder !== 'false') {
+        if (statuOrder) {
             res.status(201).json({'orders': statuOrder}); /// check res
         } else {
             res.status(204).json("Error"); /// check res
