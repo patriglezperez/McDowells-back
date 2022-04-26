@@ -6,12 +6,14 @@ async function postLogin(req, res) {
         const staff = new staffManager;
         const { loginEmail, passWord } = req.body;
         /// if it is not a valid url we cancel???
+        /// cognito fer
         if (!validator.validate(loginEmail)) {
-            res.status(400).json("Invalid Url"); 
+            res.status(400).json("Invalid Email"); 
         } else {
             /// We validate that it is encrypted???
-            const loginRetun = await staff.login(loginEmail, passWord);
+            /* const loginRetun = await staff.login(loginEmail, passWord); */
             /// cambiar estado
+            const loginRetun = await staff.patchStatusMember(id, 'active');
             /// verificar rol para activar cola de cocina o reparto
             if (loginRetun) {
                 res.json({"login": loginRetun[0].uuid_staff});
