@@ -4,7 +4,7 @@ const ordersManager = require('../../managers/ordersManager');
 async function getOrders(req, res) {
     try {
         const orders = new ordersManager;
-        const oneOrders = await orders.getById(req.params.Id);
+        const oneOrders = await orders.getById(req.params.orderDay);
         if (oneOrders) {
             res.json({"oneOrders": oneOrders});
         } else {
