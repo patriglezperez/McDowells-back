@@ -1,6 +1,6 @@
 const menuManager = require('../../managers/menuManager');
 
-async function getMenu(req, res) {
+async function getAll(req, res) {
     try {
         const menu = new menuManager;
         const menuAll = await menu.getAll();
@@ -14,4 +14,4 @@ async function getMenu(req, res) {
     }
 }
 
-module.exports = getMenu;
+module.exports = getAll;
