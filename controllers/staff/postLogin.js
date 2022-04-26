@@ -1,4 +1,4 @@
-const validUrl = require("valid-url");
+const validator = require("email-validator");
 const staffManager = require('../../managers/staffManager');
 
 async function postLogin(req, res) {
@@ -6,7 +6,7 @@ async function postLogin(req, res) {
         const staff = new staffManager;
         const { loginEmail, passWord } = req.body;
         /// if it is not a valid url we cancel???
-        if (!validUrl.isUri(loginEmail)) {
+        if (!validator.validate(loginEmail)) {
             res.status(400).json("Invalid Url"); 
         }
         /// We validate that it is encrypted???
