@@ -1,5 +1,5 @@
 import { sequelize } from "../database/database.js";
-import { DataTypes, HasMany } from "sequelize";
+import { DataTypes, Deferrable, HasMany, Sequelize } from "sequelize";
 import {Staff} from './staff.js';
 import {Menu} from './menu.js'
 
@@ -25,6 +25,11 @@ export const Orders = sequelize.define('orders', {
     },
     menu_num: {
         type: DataTypes.INTEGER,
+        references:{
+            model: Menu,
+            key: 'id',
+            Deferrable: sequelize.Deferrable.INITIALLY_INMEDIATE
+        },
         allowNull: false
     },
     status: {
@@ -34,11 +39,21 @@ export const Orders = sequelize.define('orders', {
     chef: {
         type: DataTypes.UUID,
         defaultValue: sequelize.UUIDV4,
+        references:{
+            model: Staff,
+            key: 'id',
+            Deferrable: sequelize.Deferrable.INITIALLY_INMEDIATE
+        },
         allowNull: false
     },
     waiter: {
         type: DataTypes.UUID,
         defaultValue: sequelize.UUIDV4,
+        references:{
+            model: Staff,
+            key: 'id',
+            Deferrable: sequelize.Deferrable.INITIALLY_INMEDIATE
+        },
         allowNull: false
     },
     order_notes: {
@@ -54,33 +69,12 @@ export const Orders = sequelize.define('orders', {
 
 Staff.hasMany(Orders, {
     foreignKey: "chef",
-    sourceKey: "uuid_staff"
 })
 
 Staff.hasMany(Orders, {
-    foreignKey: "waiter", 
-    sourceKey: "uuid_staff"
+    foreignKey: "waiter"
 })
 
-Orders.belongsToMany(Staff, {
-    through: OrdersStaff,
-    foreignKey: "chef",
-    targetId: "uuid_staff"
-});
+Orders.belongsTo(Staff, {foreignKey: "chef", targetId: 'id'})
 
-Orders.belongsToMany(Staff, {
-    through: OrdersStaff,
-    foreignKey: "waiter",
-    targetId: "uuid_staff"
-});
-
-
-Menu.hasOne(Orders, {
-    foreignKey:"menu_num",
-    sourceKey:"menu_num"
-})
-
-Orders.belongsTo(Menu, {
-    foreignKey: "menu_num",
-    targetid: "menu_num"
-});
+Orders.belongsTo(Staff, {foreignKey: "waiter", targetId: 'id'})
