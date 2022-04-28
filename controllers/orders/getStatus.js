@@ -1,5 +1,5 @@
 
-const ordersManager = require('../../managers/ordersManager');
+const ordersManager = require("../../managers/ordersManager");
 
 
 async function getStatus(req, res) {

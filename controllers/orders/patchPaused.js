@@ -1,4 +1,4 @@
-const ordersManager = require('../../managers/ordersManager');
+const ordersManager = require("../../managers/ordersManager");
 
 async function patchPaused(req, res) {
     try {

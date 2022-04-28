@@ -1,5 +1,5 @@
 //orden de comida
-const ordersManager = require('../../managers/ordersManager');
+const ordersManager = require("../../managers/ordersManager");
 
 async function getOrders(req, res) {
     try {
