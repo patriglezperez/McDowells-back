@@ -1,13 +1,20 @@
 const ordersManager = require("../../managers/ordersManager");
 const menuManager = require("../../managers/menuManager");
+const staffManager = require("../../managers/staffManager");
 
 
-
+/**
+ * we check if the estimate of completion of the menu and we update it
+ * @param {object} info menu information we are reviewing
+ * @param {object} orders connection object for order table
+ * @returns {boolean}
+ */
 async function checkExecutionTime(info, orders) {   
     const timeNow = new Date().getTime();
 
     // if finished we update the menu
     if (info.chef[1] > timeNow) {
+        /// necesita el await??
         await orders.changeMenuSituation(info.uuid_menu, "delivering"); /// verificar campo
         return true
     } else {
@@ -15,9 +22,15 @@ async function checkExecutionTime(info, orders) {
     }
 }
 
+/**
+ * we check the status and update the orders in the kitchen
+ * @param {string} idCook uuid cook
+ * @param {object} orders connection object for order table
+ * @returns {object} cookStatus
+ */
 async function inKitchen(idCook, orders) {
 
-    let menuStatus = {"busy": false, "data": ""}
+    let cookStatus = {"busy": false, "data": ""}
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
 
     // we verify the orders in the kitchen only those of the day
@@ -28,14 +41,20 @@ async function inKitchen(idCook, orders) {
             const finish = await checkExecutionTime(inKitchenArray[i], orders)
             // we check if the cook is busy or not
             if ((inKitchenArray[i].chef[0] === idCook) & !finish) {
-                menuStatus.busy = true;
-                menuStatus.data = inKitchenArray[i];
+                cookStatus.busy = true;
+                cookStatus.data = inKitchenArray[i];
             }
         }
     }
-    return menuStatus;
+    return cookStatus;
 }
 
+/**
+ * we assign a menu to our cook
+ * @param {string} idCook uuid cook
+ * @param {object} orders connection object for order table
+ * @returns {object} deliveredDay = updated order table record to cook
+ */
 async function assignKitchenMenu(idCook, orders) {
     /// proceso recuperar menu en process
     const info = await orders.selectInOnlyOne("processing"); /// poner el puto nombre q quieras
@@ -51,17 +70,48 @@ async function assignKitchenMenu(idCook, orders) {
     return deliveredDay;
 }
 
-async function getKitchenProcess(req, res) {
-    const orders = new ordersManager;
-    const idCook = 'params or body'; /// revisar
-    const menuStatus = inKitchen(idCook, orders);
-    let deliveredDay;
-    if (!menuStatus.busy) {
-        deliveredDay = await assignKitchenMenu(idCook, orders); /// ajustar
+/**
+ * we verify if the cook exists or not
+ * @param {string} idCook uuid cook
+ * @returns {boolean} 
+ */
+async function checkCook(idCook) {
+    const staff = new staffManager;
+    const existsCook = await staff.checkFuckCook(idCook);
+    if (existsCook) {
+        return true
+    } else {
+        return false
     }
-    
+}
+
+/**
+ * We process the updating of kitchen processes
+ * @param {object} req
+ * @returns {object} res
+ */
+async function getKitchenProcess(req, res) {
+      
     try {
-        if (deliveredDay) {
+        let deliveredDay;
+        // we retrieve the uuid associated with the cook and his availability status
+        const { cook, status } = req.body;
+        // we check if the cook exists
+        const existsCook = await checkCook(cook);
+
+        if (existsCook) {
+            const orders = new ordersManager;
+
+            // we check the menus in the kitchen to see if our cook is busy
+            const cookStatus = inKitchen(cook, orders);
+            
+            // if it is not assigned to any menu and it is available we assign a menu
+            if (!cookStatus.busy && (status === "available")) {
+                deliveredDay = await assignKitchenMenu(cook, orders); /// ajustar
+            }
+        }
+
+        if (deliveredDay && existsCook) {
             res.json({"deliveredDay": deliveredDay});
         } else {
             res.status(404).json("Not found");
