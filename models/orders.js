@@ -1,80 +1,27 @@
-import { sequelize } from "../database/database.js";
-import { DataTypes, Deferrable, HasMany, Sequelize } from "sequelize";
-import {Staff} from './staff.js';
-import {Menu} from './menu.js'
+class Orders {
+    serial_order;
+    order_day;
+    uuid_user;
+    uuid_menu;
+    status;
+    chef;
+    waiter;
+    order_notes;
+    date_order;
 
-export const Orders = sequelize.define('orders', {
-    serial_order: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    order_day: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    uuid_user: {
-        type: DataTypes.UUID,
-        defaultValue: sequelize.UUIDV4,
-        allowNull: false
-    },
-    uuid_menu: {
-        type: DataTypes.UUID,
-        defaultValue: sequelize.UUIDV4,
-        allowNull: false
-    },
-    menu_num: {
-        type: DataTypes.INTEGER,
-        references:{
-            model: Menu,
-            key: 'id',
-            Deferrable: sequelize.Deferrable.INITIALLY_INMEDIATE
-        },
-        allowNull: false
-    },
-    status: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false
-    },
-    chef: {
-        type: DataTypes.UUID,
-        defaultValue: sequelize.UUIDV4,
-        references:{
-            model: Staff,
-            key: 'id',
-            Deferrable: sequelize.Deferrable.INITIALLY_INMEDIATE
-        },
-        allowNull: false
-    },
-    waiter: {
-        type: DataTypes.UUID,
-        defaultValue: sequelize.UUIDV4,
-        references:{
-            model: Staff,
-            key: 'id',
-            Deferrable: sequelize.Deferrable.INITIALLY_INMEDIATE
-        },
-        allowNull: false
-    },
-    order_notes: {
-        type: DataTypes.TEXT,
-        allowNull: true
-    },
-    date_order: {
-        type: DataTypes.DATE,
-        allowNull: false
+    constructor(props){
+        this.serial_order= props.serial_order;
+        this.order_day= props.order_day;
+        this.uuid_user= props.uuid_user;
+        this.uuid_menu= props.uuid_menu;
+        this.status= props.status;
+        this.chef= props.chef;
+        this.waiter= props.waiter;
+        this.order_notes= props.order_notes;
+        this.date_order= props.date_order;
     }
-});
+}
+
+module.exports = Orders;
 
 
-Staff.hasMany(Orders, {
-    foreignKey: "chef",
-})
-
-Staff.hasMany(Orders, {
-    foreignKey: "waiter"
-})
-
-Orders.belongsTo(Staff, {foreignKey: "chef", targetId: 'id'})
-
-Orders.belongsTo(Staff, {foreignKey: "waiter", targetId: 'id'})

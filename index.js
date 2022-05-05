@@ -1,6 +1,11 @@
-import { sequelize } from "./database/database.js";
 import app  from "./app.js";
+import { sequelize } from "./database/database.js";
 let port = 4000;
+
+
+import './models/staff.js';
+import './models/menu.js';
+import './models/orders.js';
 
 async function main() {
   try {

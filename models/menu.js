@@ -1,25 +1,15 @@
-import { sequelize } from "../database/database.js";
-import { DataTypes } from "sequelize";
-import { Orders } from "./orders.js"
+class Menu {
+    menu_num;
+    menu_name;
+    price;
+    time_process;
 
-
-export const Menu = sequelize.define('menu', {
-    menu_num:{
-        type: DataTypes.INTEGER,
-        primaryKey: true
-    },
-    menu_name:{
-        type: DataTypes.STRING,
-        allowNull: false
+    constructor(props){
+        this.menu_num = props.menu_num;
+        this.menu_name = props.menu_name;
+        this.price = props.price;
+        this.time_process = props.time_process;
     }
-});
+};
 
-Menu.hasOne(Orders, {
-    foreignKey:"menu_num",
-    sourceKey:"menu_num"
-})
-
-Orders.belongsTo(Menu, {
-    foreignKey: "menu_num",
-    targetid: "menu_num"
-});
+module.exports = Menu

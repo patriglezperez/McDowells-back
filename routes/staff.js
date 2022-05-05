@@ -8,9 +8,10 @@ import getStaffMember from "../controllers/staff/getStaffMember.js"
 //Routes: PUT
 import putStaff from '../controllers/staff/putStaff.js'
 
-//Routes: POST
-import postLogin from '../controllers/staff/postLogin.js'
-import postNewStaff from '../controllers/staff/postNewStaff.js'
+router.patch('/status', require('../controllers/staff/patchStatus'))
+
+router.post('/login', require('../controllers/staff/postLogin'));
+router.post('/new', require('../controllers/staff/postNewStaff'));
 
 
 //Router

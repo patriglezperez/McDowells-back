@@ -1,4 +1,4 @@
-import menuManager from '../../managers/menuManager';
+import menuManager from '../../managers/menu.js';
 
 async function getAll(req, res) {
     try {
