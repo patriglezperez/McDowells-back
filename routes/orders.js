@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 router.get("/:id", require("../controllers/orders/getOrder"));
 router.get("/active", require("../controllers/orders/getStatus")); 
+router.get("/kitchen", require("../controllers/orders/getKitchenProcess"));
+
 router.get("/delivered", require("../controllers/orders/getDeliveredDate"));
 router.get("/delivering", require("../controllers/orders/getDelivering"));
  
