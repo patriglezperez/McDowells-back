@@ -40,6 +40,25 @@ async function inDelivering(idWaiter, orders) {
 
 /**
  * We process the updating of Deliver processes
+ * @param {string} idWaiter uuid Waiter
+ * @param {object} orders connection object for order table
+ * @returns {object} array of orders or null
+ */
+async function assignDelivering(idWaiter, orders) {
+    let deliveredDay;
+    // we retrieve a record of the day in delivery status without assigned waiter
+    const inDeliveringFree = await orders.getByDateByStatus(dateDayNow, "delivering", row=1);
+    if (inDeliveringFree) {
+        // we assign the waiter to the entire order
+        deliveredDay = await orders.getByDateByStatus(dateDayNow, inDeliveringFree.orderDay, idWaiter);
+    } else {
+        deliveredDay = ""; 
+    }
+    return deliveredDay;
+}
+
+/**
+ * We process the updating of Deliver processes
  * /// es json o objeto ??? cual es la correcto ???
  * @param {json} req
  * @returns {json} res
@@ -58,10 +77,13 @@ async function getDelivering(req, res) {
             // we check the menus in the delivered to see if our waiter is busy
             const waiterStatus = inDelivering(waiter, orders);
 
+            // if the waiter is unoccupied we assign him an order, 
+            // if not we send him the entire updated order
             if (!waiterStatus.busy && (status === "available")) {
-                deliveredDay = await assignDelivering(waiter, orders); /// ajustar ***
-            } 
-
+                deliveredDay = await assignDelivering(waiter, orders); /// ajustar
+            } else {
+                deliveredDay = await orders.getByDateByStatus(dateDayNow, waiter); /// ajustar
+            }
         }
 
         if (deliveredDay && existsWaiter) {
