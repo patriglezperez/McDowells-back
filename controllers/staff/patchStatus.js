@@ -1,11 +1,12 @@
 const staffManager = require('../../managers/staffManager');
 
-async function getStaffMember(req, res) {
+async function patchStatus(req, res) {
     try {
         const staff = new staffManager;
-        const member = await staff.getMember(req.params.Id);
-        if (member) {
-            res.json({"member": member});
+        const { id, status } = req.body;
+        const memberStatus = await staff.patchStatusMember(id, status);
+        if (memberStatus) {
+            res.json();
         } else {
             res.status(404).json("Not found");
         }
@@ -14,4 +15,4 @@ async function getStaffMember(req, res) {
     }
 }
 
-module.exports = getStaffMember;
+module.exports = patchStatus;
