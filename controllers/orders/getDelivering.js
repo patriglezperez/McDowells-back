@@ -11,7 +11,7 @@ const ordersManager = require('../../manager/orders');
     const staff = new staffManager;
     /// si solo chekeamos por id de staff sacar la funcion de aqui meterlo en servicio
     /// para usarlo en getKitchenProcess y no tener codigo duplicado
-    const existsWaiter = await staff.checkFuckCook(idWaiter);
+    const existsWaiter = await staff.checkingCook(idWaiter);
     if (existsWaiter) {
         return true
     } else {

@@ -49,7 +49,11 @@ class ordersManager{
     }
 
     async postNewOrder(){
-
+        try {
+            
+        } catch (error) {
+            
+        }
     }
 
     async putCancelled(){
