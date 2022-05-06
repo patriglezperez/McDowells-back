@@ -1,7 +1,18 @@
 const ordersManager = require('../../manager/orders');
 
-const getStatus =(req,res) => {
-    res.send('get staff memebers')
+
+async function getStatus(req, res) {
+    try {
+        const orders = new ordersManager;
+        const activeOrders = await orders.getByStatus("Active");
+        if (activeOrders) {
+            res.json({"activeOrders": activeOrders});
+        } else {
+            res.status(404).json("Not found");
+        }
+    } catch (err) {
+        res.status(500).json("Server Error");
+    }
 }
 
-module.exports = getStatus
+module.exports = getStatus;

@@ -1,12 +1,11 @@
-//orden de comida
 const ordersManager = require('../../manager/orders');
 
-async function getOrders(req, res) {
+async function patchFinish(req, res) {
     try {
         const orders = new ordersManager;
-        const oneOrders = await orders.getById(req.params.orderDay);
-        if (oneOrders) {
-            res.json({"oneOrders": oneOrders});
+        const updateMenu = await orders.updateByOrderDayUuiMenu(req.params.orderDay);
+        if (updateMenu) { 
+            res.json({"updateMenu": updateMenu});
         } else {
             res.status(404).json("Not found");
         }
@@ -15,4 +14,4 @@ async function getOrders(req, res) {
     }
 }
 
-module.exports = getOrders;
+module.exports = patchFinish;
