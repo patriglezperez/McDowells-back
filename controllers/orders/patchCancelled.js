@@ -1,12 +1,12 @@
+
 const ordersManager = require("../../managers/ordersManager");
 
-async function getHistoryOrders(req, res) {
+async function patchCancelled(req, res) {
     try {
         const orders = new ordersManager;
-        // Only 100 rows
-        const historyOrders = await orders.getAll(100);
-        if (historyOrders) {
-            res.json({"historyOrders": historyOrders});
+        const updateMenu = await orders.updateByOrderDayUuiMenu(req.params.orderDay);
+        if (updateMenu) {
+            res.json({"updateMenu": updateMenu});
         } else {
             res.status(404).json("Not found");
         }
@@ -15,4 +15,4 @@ async function getHistoryOrders(req, res) {
     }
 }
 
-module.exports = getHistoryOrders;
+module.exports = patchCancelled;
