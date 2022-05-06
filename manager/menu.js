@@ -1,4 +1,4 @@
-const Menu = require("../models/menu");
+const {Menu} = require("../models/menu");
 const { mcdowellConnection } = require("../database/connection");
 
 class menuManagers{

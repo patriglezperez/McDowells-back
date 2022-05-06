@@ -1,4 +1,4 @@
-import menuManager from '../../managers/menu.js';
+const menuManager = require('../../manager/menu');
 
 async function getAll(req, res) {
     try {
@@ -14,4 +14,4 @@ async function getAll(req, res) {
     }
 }
 
-export default getAll;
+module.exports= getAll;

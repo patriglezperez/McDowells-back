@@ -1,8 +1,5 @@
-import {Router} from 'express';
-const router = Router();
+let router  = require('express').Router();
 
-import getAll from '../controllers/menu/getAll.js'
+router.get('/all', require("../controllers/menu/getAll"));
 
-router.get('/all', getAll);
-
-export default router;
+module.exports= router;

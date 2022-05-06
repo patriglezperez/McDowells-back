@@ -1,21 +1,12 @@
-import app  from "./app.js";
-import { sequelize } from "./database/database.js";
-let port = 4000;
+const express = require('express');
+const cors = require('cors');
+const app = express()
+port = 3000;
 
+app.use(cors())
+app.use(require('express').json());
+app.use('/api', require('./routes/index'));
 
-import './models/staff.js';
-import './models/menu.js';
-import './models/orders.js';
-
-async function main() {
-  try {
-    await sequelize.sync({force : true})
-    app.listen(port, () => {
-      console.log(`App listening at http://localhost:${port}`);
-    });
-  } catch (error) {
-    console.error('unable to connect', error)
-  }
-}
-
-main();
+app.listen(port, () => {
+    console.log(`Application running on port ${port}`)
+});

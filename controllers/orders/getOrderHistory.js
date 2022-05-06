@@ -1,5 +1,7 @@
+const ordersManager = require('../../manager/orders');
+
 const getOrderHistory =(req,res) => {
     res.send('get staff memebers')
 }
 
-export default getOrderHistory
+module.exports = getOrderHistory

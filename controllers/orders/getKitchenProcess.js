@@ -1,6 +1,6 @@
-const ordersManager = require("../../managers/ordersManager");
-const menuManager = require("../../managers/menuManager");
-const staffManager = require("../../managers/staffManager");
+const ordersManager = require("../../manager/orders");
+const menuManager = require("../../manager/menu");
+const staffManager = require("../../manager/staff");
 
 
 /**

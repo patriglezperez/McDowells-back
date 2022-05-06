@@ -1,1 +1,0 @@
-//armar los managers de los controllers

@@ -1,5 +1,5 @@
 const validator = require("email-validator");
-const staffManager = require('../../managers/staffManager');
+const staffManager = require('../../manager/menu');
 
 async function postLogin(req, res) {
     try {

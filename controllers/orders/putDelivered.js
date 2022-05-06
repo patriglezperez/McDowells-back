@@ -1,5 +1,7 @@
+const ordersManager = require('../../manager/orders');
+
 const putDelivered =(req,res) => {
     res.send('get staff memebers')
 }
 
-export default putDelivered
+module.exports = putDelivered

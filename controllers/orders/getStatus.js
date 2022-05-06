@@ -1,5 +1,7 @@
+const ordersManager = require('../../manager/orders');
+
 const getStatus =(req,res) => {
     res.send('get staff memebers')
 }
 
-export default getStatus
+module.exports = getStatus

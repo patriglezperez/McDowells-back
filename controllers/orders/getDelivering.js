@@ -1,4 +1,4 @@
-const ordersManager = require("../../managers/ordersManager");
+const ordersManager = require('../../manager/orders');
 
 
 

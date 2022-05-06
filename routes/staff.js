@@ -1,17 +1,17 @@
-import {Router} from 'express';
-const router = Router();
+let router  = require('express').Router();
 
 //Routes: GET
-import getStaff from "../controllers/staff/getStaff.js"
-import getStaffMember from "../controllers/staff/getStaffMember.js"
+const getStaff = require("../controllers/staff/getStaff");
+const getStaffMember = require("../controllers/staff/getStaffMember");
 
 //Routes: PUT
-import putStaff from '../controllers/staff/putStaff.js'
+const putStaff = require("../controllers/staff/putStaff")
+const postLogin = require('../controllers/staff/postLogin');
+const postNewStaff = require('../controllers/staff/postNewStaff');
 
 router.patch('/status', require('../controllers/staff/patchStatus'))
 
-router.post('/login', require('../controllers/staff/postLogin'));
-router.post('/new', require('../controllers/staff/postNewStaff'));
+
 
 
 //Router
@@ -24,4 +24,4 @@ router.post('/login', postLogin);
 router.post('/new', postNewStaff);
 
 
-export default router;
+module.exports = router;

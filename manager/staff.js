@@ -1,41 +1,46 @@
-import {Staff} from '../models/staff.js';
-import { sequelize } from "../database/database.js";
+const { Staff } = require ("../models/staff");
+const { mcdowellConnection } = require("../database/connection");
 
 class staffManagers{
-    static async getStaff (){
+    async getStaff (){
         try {
-            const bringStaff = Staff.findAll()
+            const bringStaff = mcdowellConnection.query(`SELECT * FROM staffs`)
+            return bringStaff
         } catch (error) {
-            throw(error)
+            return false
         }
-        return new Staff 
     }
 
-    static async getStaffMemeber (body){
-        console.log(body)
+    async getStaffMemeber (id){
         try {
-            const bringStaffMember = Staff.findAll({
-                where: {
-                    uuid_staff: `${body.uuid_staff}`
-                }}
-            )
+            const bringStaff = mcdowellConnection.query(`SELECT * FROM staffs WHERE uuid_staff =${id};`)
+            return bringStaff
         } catch (error) {
-            
+            return false
         }
-
     }
 
-    static async postLogin (){
-
+    async postLogin (){
+        try {
+            const login = mcdowellConnection.query()
+            return login;
+        } catch (error) {
+            return false;
+        }
     }
 
-    static async postNewStaff(){
-
+    async postNewStaff(loginEmail, passw){
+        try {
+            const newUser = mcdowellConnection.query( `INSERT INTO staffs (values) VALUES()`); //incomplete
+            return newUser
+        } catch (error) {
+            return false
+        }
     }
 
-    static async putStaff (){
+    async patchStaff (){
 
     }
 }
 
-export default staffManagers
+module.exports = staffManagers
