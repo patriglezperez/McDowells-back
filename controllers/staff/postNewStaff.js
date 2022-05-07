@@ -1,5 +1,6 @@
 const validUrl = require("valid-url");
-const staffManager = require('../../manager/menu');
+const staffManager = require('../../manager/staff');
+
 async function postNewStaff(req, res) {
     try {
         const staff = new staffManager;

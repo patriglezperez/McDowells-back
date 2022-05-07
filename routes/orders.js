@@ -6,7 +6,7 @@ router.get("/active", require("../controllers/orders/getStatus"));
 router.get("/delivered", require("../controllers/orders/getDeliveredDate")); 
 router.get("/kitchen", require("../controllers/orders/getKitchenProcess"));
 router.get("/delivering", require("../controllers/orders/getDelivering"));
-router.get("/history", require("../controllers/orders/getHistoryOrders")); 
+router.get("/history", require("../controllers/orders/getOrderHistory")); 
  
 router.patch("/stop/:id", require("../controllers/orders/patchPaused"));
 router.patch("/cancel/:id", require("../controllers/orders/patchCancelled"));

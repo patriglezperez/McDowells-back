@@ -3,7 +3,7 @@ const staffManager = require('../../manager/menu');
 async function getStaff(req, res) {
     try {
         const staff = new staffManager;
-        const staffAll = await staff.getAll();
+        const staffAll = await staff.getStaff();
         if (staffAll) {
             res.json({"staffAll": staffAll});
         } else {

@@ -1,5 +1,5 @@
 const validator = require("email-validator");
-const staffManager = require('../../manager/menu');
+const staffManager = require('../../manager/staff');
 
 async function postLogin(req, res) {
     try {
@@ -7,8 +7,9 @@ async function postLogin(req, res) {
         const { loginEmail, passWord } = req.body;
         /// if it is not a valid url we cancel???
         /// cognito fer
-        if (!validator.validate(loginEmail)) {
-            res.status(400).json("Invalid Email"); 
+        const verify = await staff.decide(id)
+        if (!verify) {
+            res.status(400).json("Invalid ID"); 
         } else {
             /// We validate that it is encrypted???
             /* const loginRetun = await staff.login(loginEmail, passWord); */

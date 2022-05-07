@@ -2,7 +2,7 @@ const ordersManager = require('../../manager/orders');
 // We recover the next available order day.
 async function recoverOrderDay(orders) {
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
-    const orderDaySelect = await orders.getOrderDayByDate(dateDayNow);
+    const orderDaySelect = await orders.getDeliveredDate(dateDayNow);
     const orderDay = (orderDaySelect !== "false") ? orderDaySelect.length + 1 : 1; /// revisar empty
     return orderDay;
 }
