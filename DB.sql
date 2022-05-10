@@ -1,7 +1,7 @@
 CREATE DATABASE mcdowells;
 
 CREATE TABLE staffs(
-    uuid_staff uuid UNIQUE DEFAULT uuid_generate_v4(),
+    uuid_staff uuid UNIQUE DEFAULT,
     email VARCHAR(255) NOT NULL,
     passwords VARCHAR(255) NOT NULL,
     rol VARCHAR(255) NOT NULL,
