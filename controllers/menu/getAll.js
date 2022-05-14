@@ -2,8 +2,8 @@ const menuManager = require('../../manager/menu');
 
 async function getAll(req, res) {
     try {
-        /* const menu = new menuManager;
-        console.log('this is the menu:', menu) */
+        const menu = new menuManager;
+        console.log('this is the menu:', menu)
         const menuAll = await menuManager.getAll();
         console.log(menuAll)
         if (menuAll) {

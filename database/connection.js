@@ -1,14 +1,14 @@
 const { Client } = require("pg");
 
-const connectionClient = {
+const connectionData = {
     user: "postgres",
     host: "localhost",
     database: "mcdowells",
     password: "1234",
     port: 5432
+};
+
+function mcdowellConnection(){
+    return new Client(connectionData);
 }
-
-const mcdowellConnection = new Client(connectionClient);
-mcdowellConnection.connect();
-
 module.exports = mcdowellConnection;

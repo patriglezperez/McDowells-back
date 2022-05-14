@@ -1,4 +1,4 @@
-const staffManager = require('../../manager/menu');
+const staffManager = require('../../manager/staff');
 
 async function getStaff(req, res) {
     try {

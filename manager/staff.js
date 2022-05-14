@@ -1,79 +1,95 @@
 const { Staff } = require ("../models/staff");
-const { mcdowellConnection } = require("../database/connection");
+const mcdowellConnection = require("../database/connection");
 
 class staffManagers{
     async getStaff (){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect();
         try {
-            const bringStaff = mcdowellConnection.query(`SELECT * FROM staffs`)
+            const bringStaff = await myConnection.query(`SELECT * FROM staffs`)
             return bringStaff
         } catch (error) {
             return false
         }finally{
-            mcdowellConnection.end()
+            myConnection.end()
         }
     }
 
     async getStaffMemeber (id){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect();
         try {
-            const bringStaff = mcdowellConnection.query(`SELECT * FROM staffs WHERE uuid_staff =${id};`)
+            const bringStaff = myConnection.query(`SELECT * FROM staffs WHERE uuid_staff =${id};`)
             return bringStaff
         } catch (error) {
             return false
         }finally{
-            mcdowellConnection.end()
+            myConnection.end()
         }
     }
 
     async postLogin(id){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect();
         try {
-            const login = mcdowellConnection.query(`UPDATE staffs SET statuss = "active" WHERE uuid_staff = ${id}`)
+            const login = myConnection.query(`UPDATE staffs SET statuss = "active" WHERE uuid_staff = ${id}`)
             return login;
         } catch (error) {
             return false;
         }finally{
-            mcdowellConnection.end()
+            myConnection.end()
         }
     }
 
     async postNewStaff(id, rol, name){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect();
         try {
-            const newUser = mcdowellConnection.query( `INSERT INTO staffs (uuid_staff, rol, name ) VALUES(${id}, ${rol}, ${name})`);
+            const newUser = myConnection.query( `INSERT INTO staffs (uuid_staff, rol, name ) VALUES(${id}, ${rol}, ${name})`);
             return newUser
         } catch (error) {
             return false
         }finally{
-            mcdowellConnection.end()
+            myConnection.end()
         }
     }
 
     async decide(id){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect();
         try {
-            const checked = mcdowellConnection.query(`Select * FROM staffs WHERE uuid_staff = ${id};`);
+            const checked = myConnection.query(`Select * FROM staffs WHERE uuid_staff = ${id};`);
             return checked
         } catch (error) {
             return false
         }finally{
-            mcdowellConnection.end()
+            myConnection.end()
         }
     }
 
     async patchStatusMember(uuid_staff, statuss){
-       try {
-           const statusMember = mcdowellConnection.query(`UPDATE staffs SET statuss = ${statuss} WHERE uuid_staff = ${uuid_staff};`);
+        const myConnection = mcdowellConnection()
+        await myConnection.connect();
+        try{
+           const statusMember = myConnection.query(`UPDATE staffs SET statuss = ${statuss} WHERE uuid_staff = ${uuid_staff};`);
            return statusMember;
        } catch (error) {
            return false
        } finally{
-        mcdowellConnection.end()
+        myConnection.end()
         }
     }
 
     async updateStaff(uuid_staff, email, password, rol){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect();
         try {
-            const update = mcdowellConnection.query(`UPDATE staffs SET uuid_staff = ${uuid_staff}, email= ${email}, password = ${password}, rol = ${rol} WHERE uuid_staff = ${uuid_staff};`);
+            const update = myConnection.query(`UPDATE staffs SET uuid_staff = ${uuid_staff}, email= ${email}, password = ${password}, rol = ${rol} WHERE uuid_staff = ${uuid_staff};`);
             return update 
         } catch (error) {
-            
+            return false
+        }finally{
+            myConnection.end()
         }
     }
 }

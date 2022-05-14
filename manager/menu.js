@@ -1,18 +1,19 @@
 const {Menu} = require("../models/menu");
-const { mcdowellConnection } = require("../database/connection");
+const mcdowellConnection  = require("../database/connection");
 
 class menuManager{
     static async getAll(){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect()
         try {
-            console.log(mcdowellConnection)
-            const bringMenu = await mcdowellConnection.query( 'SELECT * FROM menus;');
+            const bringMenu = await myConnection.query( 'SELECT * FROM menus;');
             console.log(bringMenu)
             return bringMenu;
         } catch (error) {
             console.log('this is the error:', error)
             return false;
         } finally{
-            mcdowellConnection.end()
+            myConnection.end()
         }
     } 
 }
