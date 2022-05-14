@@ -8,6 +8,8 @@ class staffManagers{
             return bringStaff
         } catch (error) {
             return false
+        }finally{
+            mcdowellConnection.end()
         }
     }
 
@@ -17,6 +19,8 @@ class staffManagers{
             return bringStaff
         } catch (error) {
             return false
+        }finally{
+            mcdowellConnection.end()
         }
     }
 
@@ -26,6 +30,8 @@ class staffManagers{
             return login;
         } catch (error) {
             return false;
+        }finally{
+            mcdowellConnection.end()
         }
     }
 
@@ -35,20 +41,40 @@ class staffManagers{
             return newUser
         } catch (error) {
             return false
+        }finally{
+            mcdowellConnection.end()
         }
     }
 
     async decide(id){
         try {
-            const check = mcdowellConnection.query(`Select * FROM staffs WHERE uuid_staff = ${id}`
-            )
+            const checked = mcdowellConnection.query(`Select * FROM staffs WHERE uuid_staff = ${id};`);
+            return checked
         } catch (error) {
             return false
+        }finally{
+            mcdowellConnection.end()
         }
     }
 
-    async patchStaff (){
+    async patchStatusMember(uuid_staff, statuss){
+       try {
+           const statusMember = mcdowellConnection.query(`UPDATE staffs SET statuss = ${statuss} WHERE uuid_staff = ${uuid_staff};`);
+           return statusMember;
+       } catch (error) {
+           return false
+       } finally{
+        mcdowellConnection.end()
+        }
+    }
 
+    async updateStaff(uuid_staff, email, password, rol){
+        try {
+            const update = mcdowellConnection.query(`UPDATE staffs SET uuid_staff = ${uuid_staff}, email= ${email}, password = ${password}, rol = ${rol} WHERE uuid_staff = ${uuid_staff};`);
+            return update 
+        } catch (error) {
+            
+        }
     }
 }
 

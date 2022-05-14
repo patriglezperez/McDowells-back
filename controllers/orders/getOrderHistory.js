@@ -4,7 +4,7 @@ async function getHistoryOrders(req, res) {
     try {
         const orders = new ordersManager;
         // Only 100 rows
-        const historyOrders = await orders.getAll(100);
+        const historyOrders = await orders.getOrderHistory(100);
         if (historyOrders) {
             res.json({"historyOrders": historyOrders});
         } else {

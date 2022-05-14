@@ -22,7 +22,7 @@ CREATE TABLE menus(
 
 CREATE TABLE orders(
     serial_order SERIAL,
-    order_day DATE,
+    order_day INT,
     uuid_menu uuid UNIQUE DEFAULT uuid_generate_v4(),
     uuid_user uuid UNIQUE DEFAULT uuid_generate_v4(),
     menu_num SERIAL,
