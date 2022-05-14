@@ -123,6 +123,35 @@ class ordersManager{
         }
     }
 
+    async sendReceipt(data) {
+        //Connection to ethereal SMTP server
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: process.env.TRANSPORTER_EMAIL,
+                pass: process.env.TRANSPORTER_PASSWORD
+            }
+
+        });
+
+        const message = {
+            from: "McDowell's <servicio@mcdowells.com>",
+            to: `${data.email}`,
+            subject: "Aquí tienes el ticket de tu compra en McDowell's",
+            html: "<p>HTML version of the message</p>"
+        };
+
+        transporter.sendMail(message, (error, info) => {
+            if (error) {
+                console.log(error);
+                return false;
+            } 
+            console.log(info);
+            return info;
+        })
+    }
+
     async putCancelled(){
 
     }
