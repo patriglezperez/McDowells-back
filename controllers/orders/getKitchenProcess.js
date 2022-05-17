@@ -106,7 +106,7 @@ async function getKitchenProcess(req, res) {
             const cookStatus = inKitchen(cook, orders);
             
             // if it is not assigned to any menu and it is available we assign a menu
-            if (!cookStatus.busy && (status === "available")) {
+            if (!cookStatus.busy && (!status)) {
                 deliveredDay = await assignKitchenMenu(cook, orders); /// ajustar
             } else {
                 // we recover the orders in the kitchen only those of the day
