@@ -48,6 +48,6 @@ INSERT INTO menus(menu_num, menu_name, price, time_process) VALUES
 (2, 'Menu McDowells Junior', 5.99, 3);
 
 INSERT INTO staffs(uuid_staff, email, passwords, statuss, rol, names) VALUES
-('f13a1058-2fb2-47fb-bc47-50bfc4a73047', 'fernandocieri@hotmail.com', '123a123A', 'absent','waiter', 'Fer-chimichanga'),
+('d341ef72-0702-4072-be0d-0ceaa32e369f', 'fernandocieri@gmail.com', '123a123A', 'absent','waiter', 'Fer-chimichanga'),
 ('85d8d9ba-c6a0-4adb-acf9-4d011a4762e4', 'maestre7@gmail.com', '123a123A', 'absent', 'cook', 'Alfredo'),
 ('62cbad01-09b4-401d-8c17-a09f755c8558', 'marcorooksp@gmail.com', '123a123A', 'absent', 'admin', 'Marco');

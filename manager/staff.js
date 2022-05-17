@@ -15,11 +15,11 @@ class staffManagers{
         }
     }
 
-    async getStaffMemeber (id){
+    async getStaffMemeber(id) {
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
-            const bringStaff = myConnection.query(`SELECT * FROM staffs WHERE uuid_staff =${id};`)
+            const bringStaff = await myConnection.query(`SELECT * FROM staffs WHERE uuid_staff ='${id}';`)
             return bringStaff
         } catch (error) {
             return false
@@ -29,12 +29,15 @@ class staffManagers{
     }
 
     async postLogin(id){
+        ///console.log('id_manager:', id)
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
-            const login = myConnection.query(`UPDATE staffs SET statuss = "active" WHERE uuid_staff = ${id}`)
+            const login = await myConnection.query(`UPDATE staffs SET statuss = 'active' WHERE uuid_staff = '${id}';`)
+            ///console.log('login:', login);
             return login;
         } catch (error) {
+            ///console.log('error_managers:', error);
             return false;
         }finally{
             myConnection.end()
@@ -71,7 +74,7 @@ class staffManagers{
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try{
-           const statusMember = myConnection.query(`UPDATE staffs SET statuss = ${statuss} WHERE uuid_staff = ${uuid_staff};`);
+           const statusMember = await myConnection.query(`UPDATE staffs SET statuss = '${statuss}' WHERE uuid_staff = '${uuid_staff}';`);
            return statusMember;
        } catch (error) {
            return false
