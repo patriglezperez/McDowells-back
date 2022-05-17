@@ -1,7 +1,7 @@
 CREATE DATABASE mcdowells;
 
 CREATE TABLE staffs(
-    uuid_staff uuid UNIQUE DEFAULT,
+    uuid_staff uuid UNIQUE,
     email VARCHAR(255) NOT NULL,
     passwords VARCHAR(255) NOT NULL,
     rol VARCHAR(255) NOT NULL,
@@ -23,12 +23,12 @@ CREATE TABLE menus(
 CREATE TABLE orders(
     serial_order SERIAL,
     order_day INT,
-    uuid_menu uuid UNIQUE DEFAULT uuid_generate_v4(),
-    uuid_user uuid UNIQUE DEFAULT uuid_generate_v4(),
+    uuid_menu uuid UNIQUE,
+    uuid_user uuid UNIQUE,
     menu_num SERIAL,
     statuss VARCHAR(255),
-    chef uuid UNIQUE DEFAULT uuid_generate_v4(),
-    waiter uuid UNIQUE DEFAULT uuid_generate_v4(),
+    chef uuid UNIQUE,
+    waiter uuid UNIQUE,
     order_notes TEXT,
     date_order DATE,
 
