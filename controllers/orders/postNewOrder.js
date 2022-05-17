@@ -24,8 +24,8 @@ async function checkOrders(newOrders, orders) {
 async function postNewOrder(req, res) {
     try {
         const orders = new ordersManager;
-        const { newOrders } = req.body;
-        const statuOrder = await checkOrders(newOrders, orders); // 
+        const { order } = req.body;
+        const statuOrder = await checkOrders(order, orders); // 
 
         if (statuOrder) {
             res.status(201).json({"orders": statuOrder}); /// check res

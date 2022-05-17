@@ -57,7 +57,8 @@ async function inKitchen(idCook, orders) {
  */
 async function assignKitchenMenu(idCook, orders) {
     /// proceso recuperar menu en process
-    const info = await orders.selectInOnlyOne("processing"); /// poner el puto nombre q quieras
+    const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
+    const info = await orders.getMenuByStatus("processing", dateDayNow); /// poner el puto nombre q quieras
     /// proceso menus para pillar tiempo de duracion
     const menu = new menuManager;
     const processingTime = await menu.pickTime();
@@ -66,7 +67,7 @@ async function assignKitchenMenu(idCook, orders) {
     const completionTime = timeNow.setMinutes(timeNow.getMinutes() + processingTime);
     const cook = [idCook, completionTime];
     /// actualizar menu a cocina, añadimos en chef [uuid_chef, tiempo_q_estara_listo]
-    const deliveredDay = await orders.forKitchen(info.uuid_menu, "kitchen", cook); /// verificar campo
+    const deliveredDay = await orders.patchOrderCook(info.uuid_menu, "kitchen", cook); /// verificar campo
     return deliveredDay;
 }
 
@@ -77,7 +78,7 @@ async function assignKitchenMenu(idCook, orders) {
  */
 async function checkCook(idCook) {
     const staff = new staffManager;
-    const existsCook = await staff.checkingCook(idCook);
+    const existsCook = await staff.getStaffMemeber(idCook);
     if (existsCook) {
         return true
     } else {

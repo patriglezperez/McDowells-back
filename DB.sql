@@ -1,7 +1,7 @@
 CREATE DATABASE mcdowells;
 
 CREATE TABLE staffs(
-    uuid_staff uuid UNIQUE DEFAULT,
+    uuid_staff uuid UNIQUE,
     email VARCHAR(255) NOT NULL,
     passwords VARCHAR(255) NOT NULL,
     rol VARCHAR(255) NOT NULL,
@@ -22,13 +22,13 @@ CREATE TABLE menus(
 
 CREATE TABLE orders(
     serial_order SERIAL,
-    order_day DATE,
-    uuid_menu uuid UNIQUE DEFAULT uuid_generate_v4(),
-    uuid_user uuid UNIQUE DEFAULT uuid_generate_v4(),
+    order_day INT,
+    uuid_menu uuid UNIQUE,
+    uuid_user uuid UNIQUE,
     menu_num SERIAL,
     statuss VARCHAR(255),
-    chef uuid UNIQUE DEFAULT uuid_generate_v4(),
-    waiter uuid UNIQUE DEFAULT uuid_generate_v4(),
+    chef uuid UNIQUE,
+    waiter uuid UNIQUE,
     order_notes TEXT,
     date_order DATE,
 
@@ -46,3 +46,8 @@ CREATE TABLE orders(
 INSERT INTO menus(menu_num, menu_name, price, time_process) VALUES
 (1, 'Menu McDowells', 6.95, 3),
 (2, 'Menu McDowells Junior', 5.99, 3);
+
+INSERT INTO staffs(uuid_staff, email, passwords, statuss, rol, names) VALUES
+('f13a1058-2fb2-47fb-bc47-50bfc4a73047', 'fernandocieri@hotmail.com', '123a123A', 'absent','waiter', 'Fer-chimichanga'),
+('85d8d9ba-c6a0-4adb-acf9-4d011a4762e4', 'maestre7@gmail.com', '123a123A', 'absent', 'cook', 'Alfredo'),
+('62cbad01-09b4-401d-8c17-a09f755c8558', 'marcorooksp@gmail.com', '123a123A', 'absent', 'admin', 'Marco');
