@@ -3,7 +3,8 @@ const ordersManager = require('../../manager/orders');
 async function recoverOrderDay(orders) {
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
     const orderDaySelect = await orders.getDeliveredDate(dateDayNow);
-    const orderDay = (orderDaySelect !== "false") ? orderDaySelect.length + 1 : 1; /// revisar empty
+    // If you don't have orders that day we start one
+    const orderDay = orderDaySelect ? orderDaySelect.length + 1 : 1; 
     return orderDay;
 }
 
@@ -25,12 +26,12 @@ async function postNewOrder(req, res) {
     try {
         const orders = new ordersManager;
         const { order } = req.body;
-        const statuOrder = await checkOrders(order, orders); // 
+        const statusOrder = await checkOrders(order, orders); 
 
-        if (statuOrder) {
-            res.status(201).json({"orders": statuOrder}); /// check res
+        if (statusOrder) {
+            res.status(201).json({"orders": statusOrder}); 
         } else {
-            res.status(204).json("Error"); /// check res
+            res.status(204).json("Error"); 
         }
     } catch (err) {
         res.status(500).json("Server Error");
