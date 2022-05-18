@@ -1,12 +1,11 @@
-
-const ordersManager = require("../../managers/ordersManager");
+const ordersManager = require('../../manager/orders');
 
 async function getDeliveredDate(req, res) {
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
     
     try {
         const orders = new ordersManager;
-        const deliveredDay = await orders.getByDate(dateDayNow);
+        const deliveredDay = await orders.getOrderByDay(dateDayNow);
         if (deliveredDay) {
             res.json({"deliveredDay": deliveredDay});
         } else {

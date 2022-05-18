@@ -1,26 +1,35 @@
 const validator = require("email-validator");
-const staffManager = require('../../managers/staffManager');
+const staffManager = require('../../manager/staff');
 
 async function postLogin(req, res) {
+    ///console.log('id:',req.params.id);
     try {
+        ///console.log(staffManager);
         const staff = new staffManager;
-        const { loginEmail, passWord } = req.body;
+        ///console.log('staff', staff);
         /// if it is not a valid url we cancel???
         /// cognito fer
-        if (!validator.validate(loginEmail)) {
-            res.status(400).json("Invalid Email"); 
+        const verify = await staff.postLogin(req.params.id);
+        //console.log('verify',verify);
+        if (!verify) {
+            res.status(400).json("Invalid ID"); 
         } else {
             /// We validate that it is encrypted???
             /* const loginRetun = await staff.login(loginEmail, passWord); */
             /// cambiar estado
-            const loginRetun = await staff.patchStatusMember(id, 'active');
+            const loginRetun = await staff.patchStatusMember(req.params.id, 'active');
             /// verificar rol para activar cola de cocina o reparto
+            //console.log('loginRetun', loginRetun);
             if (loginRetun) {
-                res.json({"login": loginRetun[0].uuid_staff});
+                console.log(req.params.id);
+                const data = await staff.getStaffMemeber(req.params.id);
+                console.log('data:', data.rows[0]);
+                res.json({ ...data.rows[0]}); /// loginRetun[0].uuid_staff
             } else {
                 res.status(404).json("Not found");
         }}
     } catch (err) {
+        console.log('err:', err);
         res.status(500).json("Server Error");
     }
 }

@@ -1,4 +1,5 @@
-const ordersManager = require("../../managers/ordersManager");
+const ordersManager = require('../../manager/orders');
+const staffManager = require('../../manager/staff');
 
 
 
@@ -11,7 +12,7 @@ const ordersManager = require("../../managers/ordersManager");
     const staff = new staffManager;
     /// si solo chekeamos por id de staff sacar la funcion de aqui meterlo en servicio
     /// para usarlo en getKitchenProcess y no tener codigo duplicado
-    const existsWaiter = await staff.checkFuckCook(idWaiter);
+    const existsWaiter = await staff.checkingCook(idWaiter);
     if (existsWaiter) {
         return true
     } else {
@@ -30,7 +31,7 @@ async function inDelivering(idWaiter, orders) {
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
 
     // we verify the orders in the delivering only those of the day
-    const inDeliveringArray = await orders.getByDateByStatus(dateDayNow, "delivering", idWaiter);
+    const inDeliveringArray = await orders.getStatusWaiter(dateDayNow, "delivering", idWaiter);
     if (inDeliveringArray) {       
         waiterStatus.busy = true;
         waiterStatus.data = inDeliveringArray;
@@ -47,10 +48,10 @@ async function inDelivering(idWaiter, orders) {
 async function assignDelivering(idWaiter, orders) {
     let deliveredDay;
     // we retrieve a record of the day in delivery status without assigned waiter
-    const inDeliveringFree = await orders.getByDateByStatus(dateDayNow, "delivering", row=1);
+    const inDeliveringFree = await orders.assignDelivering(dateDayNow, "delivering", row=1);
     if (inDeliveringFree) {
         // we assign the waiter to the entire order
-        deliveredDay = await orders.getByDateByStatus(dateDayNow, inDeliveringFree.orderDay, idWaiter);
+        deliveredDay = await orders.patchDeliveryDateWaiter(dateDayNow, inDeliveringFree.orderDay, idWaiter);
     } else {
         deliveredDay = ""; 
     }
@@ -59,7 +60,6 @@ async function assignDelivering(idWaiter, orders) {
 
 /**
  * We process the updating of Deliver processes
- * /// es json o objeto ??? cual es la correcto ???
  * @param {json} req
  * @returns {json} res
  */
@@ -80,9 +80,9 @@ async function getDelivering(req, res) {
             // if the waiter is unoccupied we assign him an order, 
             // if not we send him the entire updated order
             if (!waiterStatus.busy && (status === "available")) {
-                deliveredDay = await assignDelivering(waiter, orders); /// ajustar
+                deliveredDay = await assignDelivering(waiter, orders);
             } else {
-                deliveredDay = await orders.getByDateByStatus(dateDayNow, waiter); /// ajustar
+                deliveredDay = await orders.getStatusWaiter(dateDayNow, "delivering", waiter); 
             }
         }
 

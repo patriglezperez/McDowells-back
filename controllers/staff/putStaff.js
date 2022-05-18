@@ -1,4 +1,4 @@
-const staffManager = require('../../managers/staffManager');
+const staffManager = require('../../manager/menu');
 const validUrl = require("valid-url");
 
 async function putStaff(req, res) {
@@ -9,7 +9,7 @@ async function putStaff(req, res) {
         if (!validUrl.isUri(email)) {
             res.status(400).json("Invalid Url"); 
         }
-        const updateStaff = await staff.updateStaff(orderDay, uuidMenu);
+        const updateStaff = await staff.updateStaff(uuid_staff, email, password, rol);
         if (updateStaff) {
             res.json({"updateStaff": updateStaff});
         } else {

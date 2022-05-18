@@ -1,5 +1,5 @@
 const validUrl = require("valid-url");
-const staffManager = require('../../managers/staffManager');
+const staffManager = require('../../manager/staff');
 
 async function postNewStaff(req, res) {
     try {

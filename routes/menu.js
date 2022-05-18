@@ -1,5 +1,5 @@
-const router = require("express").Router();
+let router  = require('express').Router();
 
-router.get('/all', require('../controllers/menu/getAll'));
+router.get('/all', require("../controllers/menu/getAll"));
 
-module.exports = router;
+module.exports= router;

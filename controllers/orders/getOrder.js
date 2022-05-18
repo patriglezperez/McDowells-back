@@ -1,10 +1,10 @@
 //orden de comida
-const ordersManager = require("../../managers/ordersManager");
+const ordersManager = require('../../manager/orders');
 
 async function getOrders(req, res) {
     try {
         const orders = new ordersManager;
-        const oneOrders = await orders.getById(req.params.orderDay);
+        const oneOrders = await orders.getOrderByDay(req.params.orderDay);
         if (oneOrders) {
             res.json({"oneOrders": oneOrders});
         } else {

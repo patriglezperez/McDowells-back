@@ -1,9 +1,9 @@
-const staffManager = require('../../managers/staffManager');
+const staffManager = require('../../manager/staff');
 
 async function getStaff(req, res) {
     try {
         const staff = new staffManager;
-        const staffAll = await staff.getAll();
+        const staffAll = await staff.getStaff();
         if (staffAll) {
             res.json({"staffAll": staffAll});
         } else {

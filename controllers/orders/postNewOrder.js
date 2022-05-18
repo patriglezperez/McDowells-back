@@ -1,9 +1,8 @@
-const ordersManager = require("../../managers/ordersManager");
-
+const ordersManager = require('../../manager/orders');
 // We recover the next available order day.
 async function recoverOrderDay(orders) {
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
-    const orderDaySelect = await orders.getOrderDayByDate(dateDayNow);
+    const orderDaySelect = await orders.getDeliveredDate(dateDayNow);
     const orderDay = (orderDaySelect !== "false") ? orderDaySelect.length + 1 : 1; /// revisar empty
     return orderDay;
 }
@@ -25,8 +24,8 @@ async function checkOrders(newOrders, orders) {
 async function postNewOrder(req, res) {
     try {
         const orders = new ordersManager;
-        const { newOrders } = req.body;
-        const statuOrder = await checkOrders(newOrders, orders); // 
+        const { order } = req.body;
+        const statuOrder = await checkOrders(order, orders); // 
 
         if (statuOrder) {
             res.status(201).json({"orders": statuOrder}); /// check res

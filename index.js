@@ -1,10 +1,12 @@
-const express = require("express");
-const app = express();
-const port = 3000;
+const express = require('express');
+const cors = require('cors');
+const app = express()
+port = 3000;
 
-//Routes
-app.use("/api", require("./routes/index"));
+app.use(cors())
+app.use(require('express').json());
+app.use('/api', require('./routes/index'));
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
+    console.log(`Application running on port ${port}`)
 });
