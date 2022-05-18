@@ -21,7 +21,7 @@ async function postLogin(req, res) {
             /// verificar rol para activar cola de cocina o reparto
             //console.log('loginRetun', loginRetun);
             if (loginRetun) {
-                console.log(req.params.id);
+                console.log('req.params.id-login:',req.params.id);
                 const data = await staff.getStaffMemeber(req.params.id);
                 console.log('data:', data.rows[0]);
                 res.json({ ...data.rows[0]}); /// loginRetun[0].uuid_staff

@@ -15,7 +15,7 @@ class staffManagers{
         }
     }
 
-    async getStaffMemeber(id) {
+    async getStaffMember(id) {
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {

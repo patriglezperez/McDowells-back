@@ -64,13 +64,15 @@ async function assignDelivering(idWaiter, orders) {
  * @returns {json} res
  */
 async function getDelivering(req, res) {
+    console.log('req.body-getDelivering:', req.body);
     try {
         let deliveredDay;
         // we retrieve the uuid associated with the waiter and his availability status
+        console.log('req.body-getDelivering:', req.body);
         const { waiter, status } = req.body;
         // we check if the waiter exists
         const existsWaiter = await checkWaiter(waiter); 
-
+        console.log('existsWaiter-getDelivering:', existsWaiter);
         if (existsWaiter) {
             const orders = new ordersManager;
 
