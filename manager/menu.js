@@ -6,11 +6,11 @@ class menuManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const bringMenu = await myConnection.query( 'SELECT * FROM menus;');
+            const bringMenu = await myConnection.query("SELECT * FROM menus;");
             console.log(bringMenu)
             return bringMenu;
         } catch (error) {
-            console.log('this is the error:', error)
+            console.log("this is the error:", error)
             return false;
         } finally{
             myConnection.end()

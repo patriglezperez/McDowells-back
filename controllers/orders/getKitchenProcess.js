@@ -78,7 +78,7 @@ async function assignKitchenMenu(idCook, orders) {
  */
 async function checkCook(idCook) {
     const staff = new staffManager;
-    const existsCook = await staff.getStaffMemeber(idCook);
+    const existsCook = await staff.getStaffMember(idCook);
     if (existsCook) {
         return true
     } else {

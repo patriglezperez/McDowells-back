@@ -8,7 +8,11 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
+<<<<<<< HEAD
             const today = myConnection.query(`SELECT * FROM orders WHERE order_day = '${date}';`)
+=======
+            const today = await myConnection.query(`SELECT * FROM orders WHERE order_day = '${date}';`)
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
             return today
         } catch (error) {
             return false
@@ -22,7 +26,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const history = myConnection.query(`SELECT * FROM orders LIMIT ${rows} ORDER BY desc;`
+            const history = await myConnection.query(`SELECT * FROM orders LIMIT '${rows}' ORDER BY desc;`
             )
         } catch (error) {
             return false
@@ -36,7 +40,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const activeStatus = myConnection.query(`SELECT * FROM orders WHERE statuss = ${active};`);
+            const activeStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${active}';`);
             return activeStatus
         } catch (error) {
             return false
@@ -50,7 +54,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const delivery = myConnection.query( `UPDATE orders SET waiter = ${waiter} WHERE order_day = ${order} AND date_order = ${date};`);
+            const delivery = await myConnection.query(`UPDATE orders SET waiter = '${waiter}' WHERE order_day = '${order}' AND date_order = '${date}';`);
             return delivery;
         } catch (error) {
             return false
@@ -64,7 +68,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const delivery = myConnection.query( `SELECT * FROM orders WHERE date_order = ${date} AND statuss = ${statuss} AND LIMIT ${row}  AND waiter = null;` );
+            const delivery = await myConnection.query(`SELECT * FROM orders WHERE date_order = '${date}' AND statuss = '${statuss}' AND LIMIT '${row}'  AND waiter = null;` );
             return delivery;
         } catch (error) {
             return false
@@ -78,7 +82,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const getDay = myConnection.query(`SELECT * FROM orders WHERE order_day = ${orderDay} ;`)
+            const getDay = await myConnection.query(`SELECT * FROM orders WHERE order_day = '${orderDay}' ;`)
             return getDay
         } catch (e) {
             return false
@@ -92,7 +96,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const delivery = myConnection.query( `SELECT * FROM orders WHERE date_order = ${date} AND order_day = ${orderDay} AND waiter = ${waiter};`);
+            const delivery = await myConnection.query( `SELECT * FROM orders WHERE date_order = '${date}' AND order_day = '${orderDay}' AND waiter = '${waiter}';`);
             return delivery;
         } catch (error) {
             return false
@@ -106,7 +110,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const waiters = myConnection.query(`SELECT * FROM orders WHERE date_order = ${date} AND statuss = ${statuss} AND waiter = ${waiter};`); 
+            const waiters = await myConnection.query(`SELECT * FROM orders WHERE date_order = '${date}' AND statuss = '${statuss}' AND waiter = '${waiter}';`); 
             return waiters
         } catch (error) {
             return false
@@ -120,7 +124,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const kitchenProcess = myConnection.query(`UPDATE orders SET statuss = ${status} WHERE uuid_menu = ${uuid_menu};`);
+            const kitchenProcess = await myConnection.query(`UPDATE orders SET statuss = '${status}' WHERE uuid_menu = '${uuid_menu}';`);
             return kitchenProcess
         } catch (error) {
             return false
@@ -134,7 +138,11 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
+<<<<<<< HEAD
             const newOrder = await myConnection.query(`INSERT INTO orders (serial_order, order_day, uuid_menu, uuid_user, menu_num, statuss, chef, waiter, order_notes, date_order) VALUES('${data.serial_order}','${data.order_day}','${data.uuid_menu}','${data.uuid_user}','${data.menu_num}','${data.statuss}','${data.chef}','${data.waiter}','${data.order_notes}','${data.date_order}');`)
+=======
+            const newOrder = await myConnection.query(`INSERT INTO orders (serial_order, order_day, uuid_menu, uuid_user, menu_num, statuss, chef, waiter, order_notes, date_order) ('${data.serial_order}','${data.order_day}','${data.uuid_menu}','${data.uuid_user}','${data.menu_num}','${data.statuss}','${data.chef}','${data.waiter}','${data.order_notes}','${data.date_order}');`)
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
             return newOrder
         } catch (error) {
             return false
@@ -148,7 +156,11 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
+<<<<<<< HEAD
             const updateOrder = myConnection.query(`UPDATE orders SET statuss='${statuss}' WHERE order_day = '${order}' AND date_order = '${date}';`)
+=======
+            const updateOrder = await myConnection.query(`UPDATE orders SET statuss='${statuss}' WHERE order_day = '${order}' AND date_order = '${date}'`)
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
             return updateOrder
         } catch (error) {
             return false
@@ -162,7 +174,11 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
+<<<<<<< HEAD
             const menuStatus = myConnection.query(`SELECT * FROM orders WHERE statuss = ${statuss} AND date_order ='${date}';`);
+=======
+            const menuStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${statuss}' AND date_order ='${date}';`);
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
             return menuStatus;
         } catch (error) {
             return false
@@ -175,7 +191,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const orderCook = myConnection.query(`UPDATE orders SET chef = ${cook}, statuss = ${kitchen} WHERE uuid_menu = ${id};`);
+            const orderCook = await myConnection.query(`UPDATE orders SET chef = '${cook}', statuss = '${kitchen}' WHERE uuid_menu = '${id}';`);
             return orderCook;
         } catch (error) {
             return false
@@ -189,7 +205,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const petition = myConnection.query(`Select * FROM orders WHERE date_order = ${date} AND statuss = ${kitchen};`)
+            const petition = await myConnection.query(`Select * FROM orders WHERE date_order = '${date}' AND statuss = '${kitchen}';`)
         } catch (error) {
             return false
         }finally{
@@ -202,7 +218,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const petition = myConnection.query(`UPDATE orders SET statuss=${statuss} WHERE uuid_menu = ${id_menu};`)
+            const petition = await myConnection.query(`UPDATE orders SET statuss='${statuss}' WHERE uuid_menu = '${id_menu}';`)
         } catch (error) {
             return false
         }finally{

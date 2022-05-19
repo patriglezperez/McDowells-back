@@ -15,8 +15,12 @@ class staffManager{
         }
     }
 
+<<<<<<< HEAD
     async getStaffMember(id){
         console.log('llega la informacion',id)
+=======
+    async getStaffMember(id) {
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
@@ -30,12 +34,19 @@ class staffManager{
     }
 
     async postLogin(id){
+        ///console.log('id_manager:', id)
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
+<<<<<<< HEAD
             const login = await myConnection.query(`UPDATE staffs SET statuss = "active" WHERE uuid_staff = "${id}";`)
+=======
+            const login = await myConnection.query(`UPDATE staffs SET statuss = 'active' WHERE uuid_staff = '${id}';`)
+            ///console.log('login:', login);
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
             return login;
         } catch (error) {
+            ///console.log('error_managers:', error);
             return false;
         }finally{
             myConnection.end()
@@ -59,7 +70,11 @@ class staffManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
+<<<<<<< HEAD
             const checked = await myConnection.query(`Select * FROM staffs WHERE uuid_staff = ${id};`);
+=======
+            const checked = await myConnection.query(`Select * FROM staffs WHERE uuid_staff = '${id}';`);
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
             return checked
         } catch (error) {
             return false
@@ -72,7 +87,7 @@ class staffManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try{
-           const statusMember = myConnection.query(`UPDATE staffs SET statuss = ${statuss} WHERE uuid_staff = ${uuid_staff};`);
+           const statusMember = await myConnection.query(`UPDATE staffs SET statuss = '${statuss}' WHERE uuid_staff = '${uuid_staff}';`);
            return statusMember;
        } catch (error) {
            return false
@@ -85,7 +100,11 @@ class staffManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
+<<<<<<< HEAD
             const update = await myConnection.query(`UPDATE staffs SET uuid_staff = ${uuid_staff}, email= ${email}, password = ${password}, rol = ${rol} WHERE uuid_staff = ${uuid_staff};`);
+=======
+            const update = await myConnection.query(`UPDATE staffs SET uuid_staff = '${uuid_staff}', email= '${email}', password = '${password}', rol = '${rol}' WHERE uuid_staff = '${uuid_staff}';`);
+>>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
             return update 
         } catch (error) {
             return false
