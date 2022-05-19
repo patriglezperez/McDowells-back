@@ -4,7 +4,7 @@ async function patchPaused(req, res) {
     try {
         const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
         const orders = new ordersManager;
-        const updateMenu = await orders.updateByOrderDayUuiMenu(req.params.orderDay, dateDayNow, "Paused");
+        const updateMenu = await orders.putStatus(req.params.orderDay, dateDayNow, "Paused");
         if (updateMenu) { 
             res.json({"updateMenu": updateMenu});
         } else {

@@ -4,6 +4,7 @@ const ordersManager = require('../../manager/orders');
 async function getStatus(req, res) {
     try {
         const orders = new ordersManager;
+        console.log(orders)
         const activeOrders = await orders.getByStatus("Active");
         if (activeOrders) {
             res.json({"activeOrders": activeOrders});

@@ -4,7 +4,8 @@ const staffManager = require('../../manager/staff');
 async function postLogin(req, res) {
     try {
         const staff = new staffManager;
-        const { loginEmail, passWord } = req.body;
+        console.log('muestra esto',staff)
+        const { email, passwords } = req.body;
         /// if it is not a valid url we cancel???
         /// cognito fer
         const verify = await staff.decide(id)
