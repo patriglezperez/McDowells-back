@@ -1,11 +1,11 @@
 const orderManager = require('../../manager/orders');
 
-async function getByStatus(req, res){
+async function getStatus(req, res){
     try {
         console.log("PINTAAA", orderManager)
         const orders = new orderManager;
         console.log('what is this', orders)
-        const activeOrders = await orders.getByStatus(req.params.status);
+        const activeOrders = await orders.getStatus(req.params.status);
         console.log("what is this Active orders:", req.params)
         if (activeOrders) {
             res.json({"activeOrders": activeOrders});
@@ -17,4 +17,4 @@ async function getByStatus(req, res){
     }
 }
 
-module.exports = getByStatus;
+module.exports = getStatus;

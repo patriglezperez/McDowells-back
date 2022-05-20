@@ -33,7 +33,7 @@ class orderManager{
     }
 
     //getStatus
-    async getByStatus(active){
+    async getStatus(active){
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         console.log('what is active?')
