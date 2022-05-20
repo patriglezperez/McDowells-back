@@ -1,7 +1,7 @@
 CREATE DATABASE mcdowells;
 
 CREATE TABLE staffs(
-    uuid_staff VARCHAR(255) UNIQUE,
+    uuid_staff VARCHAR(255) NOT NULL,
     rol VARCHAR(255) NOT NULL,
     statuss VARCHAR(255) NOT NULL,
     names VARCHAR(255) NOT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE orders(
     serial_order SERIAL,
     order_day INT,
     uuid_menu uuid UNIQUE,
-    uuid_user uuid UNIQUE,
-    menu_num SERIAL,
+    uuid_user VARCHAR(255),
+    menu_num INT,
     statuss VARCHAR(255),
     chef VARCHAR(255),
     waiter VARCHAR(255),
@@ -43,7 +43,7 @@ CREATE TABLE orders(
 
 INSERT INTO menus(menu_num, menu_name, price, time_process) VALUES
 (1, 'Menu McDowells', 6.95, 3),
-(2, 'Menu McDowells Junior', 5.99, 3);
+(2, 'Menu McDowells Junior', 5.99, 2);
 
 INSERT INTO staffs(uuid_staff, statuss, rol, names) VALUES
 ('d341ef72-0702-4072-be0d-0ceaa32e369f','absent','waiter', 'Fer-chimichanga'),
