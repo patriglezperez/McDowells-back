@@ -34,6 +34,7 @@ async function postNewOrder(req, res) {
         const orders = new orderManager;
         console.log('Aqui debe estar presentando la info:',orders)
         const { order } = req.body;
+        console.log(req.body.order)
         const statusOrder = await checkOrders(order, orders); 
 
         if (statusOrder) {

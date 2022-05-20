@@ -1,7 +1,7 @@
 //orden de comida
 const orderManager = require('../../manager/orders');
 
-async function getOrders(req, res) {
+async function getOrder(req, res) {
     try {
         const orders = new orderManager;
         const oneOrders = await orders.getOrderByDay(req.params.id);
@@ -16,4 +16,4 @@ async function getOrders(req, res) {
     }
 }
 
-module.exports = getOrders;
+module.exports = getOrder;

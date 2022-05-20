@@ -1,4 +1,3 @@
-const { Orders } = require ("../models/orders");
 const mcdowellConnection = require("../database/connection");
 
 class orderManager{
@@ -22,7 +21,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const history = await myConnection.query(`SELECT * FROM orders LIMIT '${rows}' ORDER BY desc;`
+            const history = await myConnection.query(`SELECT * FROM orders ORDER BY date_order DESC  LIMIT ${rows};`
             );
             return history
         } catch (error) {
@@ -39,7 +38,7 @@ class orderManager{
         await myConnection.connect()
         console.log('what is active?')
         try {
-            const activeStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${active}';`);
+            const activeStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${active}' ;`);
             return activeStatus
         } catch (error) {
             return false
@@ -81,7 +80,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const getDay = await myConnection.query(`SELECT * FROM orders WHERE order_day = '${orderDay}' ;`)
+            const getDay = await myConnection.query(`SELECT * FROM orders WHERE date_order = '${orderDay}' ;`)
             return getDay
         } catch (e) {
             return false
