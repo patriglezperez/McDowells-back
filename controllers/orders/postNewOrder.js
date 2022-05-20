@@ -30,11 +30,8 @@ async function checkOrders(newOrders, orders) {
 /// process
 async function postNewOrder(req, res) {
     try {
-        console.log('Aqui que hay??',orderManager)
         const orders = new orderManager;
-        console.log('Aqui debe estar presentando la info:',orders)
         const { order } = req.body;
-        console.log(req.body.order)
         const statusOrder = await checkOrders(order, orders); 
 
         if (statusOrder) {

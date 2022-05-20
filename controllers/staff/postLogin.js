@@ -21,15 +21,12 @@ async function postLogin(req, res) {
             /// verificar rol para activar cola de cocina o reparto
             //console.log('loginRetun', loginRetun);
             if (loginRetun) {
-                console.log('req.params.id-login:',req.params.id);
                 const data = await staff.getStaffMember(req.params.id);
-                console.log('data:', data.rows[0]);
                 res.json({ ...data.rows[0]}); /// loginRetun[0].uuid_staff
             } else {
                 res.status(404).json("Not found");
         }}
     } catch (err) {
-        console.log('err:', err);
         res.status(500).json("Server Error");
     }
 }

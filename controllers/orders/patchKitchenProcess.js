@@ -14,7 +14,6 @@ async function checkExecutionTime(info, orders) {
 
     // if finished we update the menu
     const timeFinish = info.order_notes.split(',')
-    console.log('checkExecutionTime:', timeFinish[1] , timeNow)
     if (timeFinish[1] < timeNow) {
         /// necesita el await??
 

@@ -1,7 +1,6 @@
 const orderManager = require('../../manager/orders');
 
 async function getStatus(req, res){
-    console.log("what can i see")
     try {
         const orders = new orderManager;
         const activeOrders = await orders.getStatus(req.params.status);
