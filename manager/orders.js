@@ -1,4 +1,5 @@
 const mcdowellConnection = require("../database/connection");
+const nodemailer = require("nodemailer")
 
 class orderManager{
     
@@ -33,10 +34,8 @@ class orderManager{
 
     //getStatus
     async getStatus(active){
-        console.log('what is active?')
         const myConnection = mcdowellConnection()
         await myConnection.connect()
-        console.log('what is active?')
         try {
             const activeStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${active}' ;`);
             return activeStatus
@@ -133,7 +132,6 @@ class orderManager{
 
     //postNewOrder
     async postNewOrder(data){
-        console.log(data)
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         
@@ -148,32 +146,33 @@ class orderManager{
     }
 
     async sendReceipt(data) {
+        // console.log('sendReceipt');
+        // console.log(process.env.TRANSPORTER_EMAIL, process.env.TRANSPORTER_PASSWORD);
         //Connection to ethereal SMTP server
-        const transporter = nodemailer.createTransport({
+        let transporter = nodemailer.createTransport({
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
                 user: process.env.TRANSPORTER_EMAIL,
                 pass: process.env.TRANSPORTER_PASSWORD
             }
-
         });
 
         const message = {
             from: "McDowell's <servicio@mcdowells.com>",
-            to: `${data.email}`,
+            to: `${data.email.email}`,
             subject: "Aquí tienes el ticket de tu compra en McDowell's",
-            html: "<p>HTML version of the message</p>"
+            html: `<div><p>Tu número de pedido es ${data.order.orderNumber}</p> <p>El total de tu compra es ${data.order.orderTotal}</p></div>`
         };
 
         transporter.sendMail(message, (error, info) => {
             if (error) {
-                console.log(error);
+                console.log(error, 'email errro');
                 return false;
             } 
-            console.log(info);
-            return info;
         })
+
+        return true;
     }
 
     async putCancelled(){}
@@ -193,7 +192,6 @@ class orderManager{
 
     //sub function -->getKitchenProcess
     async getMenuByStatus(statuss, date){
-        console.log('getMenuByStatus:', statuss, date);
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
@@ -207,14 +205,12 @@ class orderManager{
     }
 
     async patchOrderCook(id, kitchen, cook){
-        console.log('patchOrderCook:',id, kitchen, cook);
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
             const orderCook = await myConnection.query(`UPDATE orders SET chef = '${cook[0]}', statuss = '${kitchen}', order_notes = '${cook}' WHERE uuid_menu = '${id}';`);
             return orderCook;
         } catch (error) {
-            console.log('patchOrderCook--error:', error)
             return false
         }finally{
             myConnection.end()
@@ -223,7 +219,6 @@ class orderManager{
 
     //getKitchen
     async getByDateByStatus(date, kitchen){
-        console.log('getByDateByStatus:',date, kitchen)
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {

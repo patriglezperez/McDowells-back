@@ -1,3 +1,5 @@
+const ordersManager = require('../../manager/orders');
+
 async function sendReceiptEmail(req, res) {
     try {
         const orders = new ordersManager;

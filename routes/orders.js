@@ -14,6 +14,6 @@ router.patch("/cancel/:id", require("../controllers/orders/patchCancelled"));
 router.patch("/finish/:id", require("../controllers/orders/patchFinish"));
 
 router.post("/new", require("../controllers/orders/postNewOrder"));
-router.post("/receipt", require("../controllers/orders/postNewOrder"));
+router.post("/receipt", require("../controllers/orders/sendReceipt"));
 
 module.exports= router;
