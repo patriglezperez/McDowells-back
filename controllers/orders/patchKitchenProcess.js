@@ -13,8 +13,11 @@ async function checkExecutionTime(info, orders) {
     const timeNow = new Date().getTime();
 
     // if finished we update the menu
-    if (info.chef[1] > timeNow) {
+    const timeFinish = info.order_notes.split(',')
+    console.log('checkExecutionTime:', timeFinish[1] , timeNow)
+    if (timeFinish[1] < timeNow) {
         /// necesita el await??
+
         await orders.changeMenuSituation(info.uuid_menu, "delivering"); /// verificar campo
         return true
     } else {
@@ -35,14 +38,15 @@ async function inKitchen(idCook, orders) {
 
     // we verify the orders in the kitchen only those of the day
     const inKitchenArray = await orders.getByDateByStatus(dateDayNow, "kitchen");
-    if (inKitchenArray) {       
-        for (i=0; inKitchenArray.length > i; i++) {
+    //console.log('inKitchen--inKitchenArray:', inKitchenArray.rows);
+    if (inKitchenArray.rows) {       
+        for (i=0; inKitchenArray.rows.length > i; i++) {
             // we verify if the menu is finished its preparation
-            const finish = await checkExecutionTime(inKitchenArray[i], orders)
+            const finish = await checkExecutionTime(inKitchenArray.rows[i], orders)
             // we check if the cook is busy or not
-            if ((inKitchenArray[i].chef[0] === idCook) & !finish) {
+            if ((inKitchenArray.rows[i].chef === idCook) & !finish) {
                 cookStatus.busy = true;
-                cookStatus.data = inKitchenArray[i];
+                cookStatus.data = inKitchenArray.rows[i];
             }
         }
     }
@@ -58,16 +62,21 @@ async function inKitchen(idCook, orders) {
 async function assignKitchenMenu(idCook, orders) {
     /// proceso recuperar menu en process
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
+    //console.log('assignKitchenMenu:', idCook)
     const info = await orders.getMenuByStatus("processing", dateDayNow); /// poner el puto nombre q quieras
+    //console.log('assignKitchenMenu--info:', info.rows);
     /// proceso menus para pillar tiempo de duracion
     const menu = new menuManager;
-    const processingTime = await menu.pickTime();
-    const timeNow = new Date().getTime();
+    const processingTime = await menu.pickTime(info.rows[0].menu_num);
+    //console.log('assignKitchenMenu--processingTime:', processingTime.rows[0].time_process);
+    const timeNow = new Date();
     /// añadir time
-    const completionTime = timeNow.setMinutes(timeNow.getMinutes() + processingTime);
+    const completionTime = timeNow.setMinutes(timeNow.getMinutes() + processingTime.rows[0].time_process);
     const cook = [idCook, completionTime];
+    //console.log('assignKitchenMenu--cook:', cook)
     /// actualizar menu a cocina, añadimos en chef [uuid_chef, tiempo_q_estara_listo]
-    const deliveredDay = await orders.patchOrderCook(info.uuid_menu, "kitchen", cook); /// verificar campo
+    const deliveredDay = await orders.patchOrderCook(info.rows[0].uuid_menu, "kitchen", cook); /// verificar campo
+    //console.log('assignKitchenMenu--deliveredDay:', deliveredDay)
     return deliveredDay;
 }
 
@@ -77,6 +86,7 @@ async function assignKitchenMenu(idCook, orders) {
  * @returns {boolean} 
  */
 async function checkCook(idCook) {
+    //console.log('checkCook:', idCook);
     const staff = new staffManager;
     const existsCook = await staff.getStaffMember(idCook);
     if (existsCook) {
@@ -91,38 +101,57 @@ async function checkCook(idCook) {
  * @param {object} req
  * @returns {object} res
  */
-async function getKitchenProcess(req, res) {
-      
+async function patchKitchenProcess(req, res) {
+    //console.log('puto patchKitchenProcess');
+    //console.log('puto' ,req.body);
     try {
         let deliveredDay;
+        let cookStatus;
+        const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
         // we retrieve the uuid associated with the cook and his availability status
         const { cook, status } = req.body;
         // we check if the cook exists
         const existsCook = await checkCook(cook);
-
+        //console.log('patchKitchenProcess--existsCook:', existsCook);
         if (existsCook) {
             const orders = new ordersManager;
 
             // we check the menus in the kitchen to see if our cook is busy
-            const cookStatus = inKitchen(cook, orders);
-            
+            cookStatus = await inKitchen(cook, orders);
+            //console.log('patchKitchenProcess--cookStatus:' , cookStatus, status)
             // if it is not assigned to any menu and it is available we assign a menu
             if (!cookStatus.busy && !status) {
                 deliveredDay = await assignKitchenMenu(cook, orders); /// ajustar
-            } else {
+            } /* else {
                 // we recover the orders in the kitchen only those of the day
-                deliveredDay = await orders.getByDateByStatus(dateDayNow, "kitchen");
-            }
+                console.log('patchKitchenProcess--false:' , cookStatus, status, dateDayNow);
+                /// solo el asignado al cocinero ???
+                deliveredDayNow = await orders.getByDateByStatus(dateDayNow, "kitchen"); 
+                deliveredDay = deliveredDayNow.rows.find((e) => {e.cook[0] === cook})
+                console.log('patchKitchenProcess--deliveredDay:' ,deliveredDay)
+            } */
         }
 
-        if (deliveredDay && existsCook) {
-            res.json({"deliveredDay": deliveredDay});
+        if (existsCook) {
+            if (cookStatus.busy) {
+                // tiene ya un pedido en cocina
+                res.json({"orders": cookStatus.data});
+            } else {
+                if (!status) {
+                    // se le asigna un pedido
+                    res.json({"orders": deliveredDay.rows});
+                } else {
+                    // no tiene pedido pero no esta trabajando
+                    res.json({"orders": null});
+                }
+            }  
         } else {
             res.status(404).json("Not found");
         }
     } catch (err) {
+        console.log('err:', err)
         res.status(500).json("Server Error");
     }
 }
 
-module.exports = getKitchenProcess;
+module.exports = patchKitchenProcess;

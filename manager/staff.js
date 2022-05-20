@@ -70,16 +70,17 @@ class staffManager{
         }
     }
 
-    async patchStatusMember(uuid_staff, statuss){
+    async patchStatusMember(uuid_staff, statuss) {
+        console.log('kaka--patchStatusMember:', uuid_staff, 'statuss:', statuss)
         const myConnection = mcdowellConnection()
-        await myConnection.connect();
-        try{
-           const statusMember = await myConnection.query(`UPDATE staffs SET statuss = '${statuss}' WHERE uuid_staff = '${uuid_staff}';`);
-           return statusMember;
-       } catch (error) {
-           return false
-       } finally{
-        myConnection.end()
+        try {   
+            await myConnection.connect();
+            const statusMember = await myConnection.query(`UPDATE staffs SET statuss = '${statuss}' WHERE uuid_staff = '${uuid_staff}';`);
+            return statusMember;
+        } catch (error) {
+            return false
+        } finally   {
+            myConnection.end()
         }
     }
 
