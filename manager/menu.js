@@ -1,5 +1,5 @@
 const {Menu} = require("../models/menu");
-const mcdowellConnection  = require("../database/connection");
+const mcdowellConnection = require("../database/connection");
 
 class menuManager{
     async getAll(){

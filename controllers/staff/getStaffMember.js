@@ -2,7 +2,6 @@ const staffManager = require('../../manager/staff');
 
 async function getStaffMember(req, res) {
     try {
-        console.log('lamierda esta', staffManager)
         const staff = new staffManager;
         ///console.log(staff)
         //console.log('req.params.uuid_staff-getStaffMember:', req.params.id)

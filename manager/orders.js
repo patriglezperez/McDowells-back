@@ -23,7 +23,8 @@ class orderManager{
         await myConnection.connect()
         try {
             const history = await myConnection.query(`SELECT * FROM orders LIMIT '${rows}' ORDER BY desc;`
-            )
+            );
+            return history
         } catch (error) {
             return false
         }finally{
@@ -35,6 +36,7 @@ class orderManager{
     async getByStatus(active){
         const myConnection = mcdowellConnection()
         await myConnection.connect()
+        console.log('what is active?')
         try {
             const activeStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${active}';`);
             return activeStatus
