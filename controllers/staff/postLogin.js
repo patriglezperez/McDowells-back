@@ -6,12 +6,7 @@ async function postLogin(req, res) {
     try {
         ///console.log(staffManager);
         const staff = new staffManager;
-<<<<<<< HEAD
-        console.log('muestra esto',staff)
-        const { email, passwords } = req.body;
-=======
         ///console.log('staff', staff);
->>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
         /// if it is not a valid url we cancel???
         /// cognito fer
         const verify = await staff.postLogin(req.params.id);

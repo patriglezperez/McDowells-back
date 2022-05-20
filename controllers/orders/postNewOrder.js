@@ -24,14 +24,12 @@ async function checkOrders(newOrders, orders) {
 /// process
 async function postNewOrder(req, res) {
     try {
+        console.log('Aqui que hay??',ordersManager)
         const orders = new ordersManager;
+        console.log('Aqui debe estar presentando la info:',orders)
         const { order } = req.body;
-<<<<<<< HEAD
-        console.log(orders, order)
-        const statuOrder = await checkOrders(order, orders); // 
-=======
+        console.log('Que es esta mierda:', req.body)
         const statusOrder = await checkOrders(order, orders); 
->>>>>>> 22877db49f936eee3556a98ff1b3dc5f096dc6ac
 
         if (statusOrder) {
             res.status(201).json({"orders": statusOrder}); 
