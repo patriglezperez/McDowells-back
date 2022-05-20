@@ -8,7 +8,6 @@ async function getOrder(req, res) {
         if (oneOrders) {
             res.json({"oneOrders": oneOrders});
         } else {
-            console.log()
             res.status(404).json("Not found");
         }
     } catch (err) {

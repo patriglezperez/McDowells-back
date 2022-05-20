@@ -7,10 +7,8 @@ class menuManager{
         await myConnection.connect()
         try {
             const bringMenu = await myConnection.query("SELECT * FROM menus;");
-            console.log(bringMenu)
             return bringMenu;
         } catch (error) {
-            console.log("this is the error:", error)
             return false;
         } finally{
             myConnection.end()
@@ -24,7 +22,6 @@ class menuManager{
             const timeMenu = await myConnection.query(`SELECT time_process FROM menus WHERE menu_num = '${menu_num}';`);
             return timeMenu;
         } catch (error) {
-            console.log("this is the error:", error)
             return false;
         } finally{
             myConnection.end()
