@@ -34,6 +34,7 @@ class orderManager{
 
     //getStatus
     async getStatus(active){
+        console.log('what is active?')
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         console.log('what is active?')
@@ -263,4 +264,4 @@ class orderManager{
 
 }
 
-module.exports = orderManager
+module.exports = orderManager;

@@ -1,4 +1,4 @@
-const ordersManager = require('../../manager/orders');
+const orderManager = require('../../manager/orders');
 
 async function getDeliveredDate(req, res) {
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now

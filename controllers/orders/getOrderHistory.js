@@ -1,8 +1,8 @@
-const ordersManager = require('../../manager/orders');
+const orderManager = require('../../manager/orders');
 
 async function getHistoryOrders(req, res) {
     try {
-        const orders = new ordersManager;
+        const orders = new orderManager;
         // Only 100 rows
         const historyOrders = await orders.getOrderHistory(100);
         if (historyOrders) {

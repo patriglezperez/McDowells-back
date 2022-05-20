@@ -1,4 +1,4 @@
-const ordersManager = require("../../manager/orders");
+const orderManager = require("../../manager/orders");
 const menuManager = require("../../manager/menu");
 const staffManager = require("../../manager/staff");
 
@@ -114,7 +114,7 @@ async function patchKitchenProcess(req, res) {
         const existsCook = await checkCook(cook);
         //console.log('patchKitchenProcess--existsCook:', existsCook);
         if (existsCook) {
-            const orders = new ordersManager;
+            const orders = new orderManager;
 
             // we check the menus in the kitchen to see if our cook is busy
             cookStatus = await inKitchen(cook, orders);

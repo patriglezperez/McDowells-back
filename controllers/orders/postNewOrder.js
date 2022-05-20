@@ -1,4 +1,4 @@
-const ordersManager = require('../../manager/orders');
+const orderManager = require('../../manager/orders');
 // We recover the next available order day.
 async function recoverOrderDay(orders) {
 
@@ -30,8 +30,8 @@ async function checkOrders(newOrders, orders) {
 /// process
 async function postNewOrder(req, res) {
     try {
-        console.log('Aqui que hay??',ordersManager)
-        const orders = new ordersManager;
+        console.log('Aqui que hay??',orderManager)
+        const orders = new orderManager;
         console.log('Aqui debe estar presentando la info:',orders)
         const { order } = req.body;
         const statusOrder = await checkOrders(order, orders); 

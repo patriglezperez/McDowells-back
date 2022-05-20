@@ -1,4 +1,4 @@
-const ordersManager = require('../../manager/orders');
+const orderManager = require('../../manager/orders');
 const staffManager = require('../../manager/staff');
 
 
@@ -74,7 +74,7 @@ async function getDelivering(req, res) {
         const existsWaiter = await checkWaiter(waiter); 
         console.log('existsWaiter-getDelivering:', existsWaiter);
         if (existsWaiter) {
-            const orders = new ordersManager;
+            const orders = new orderManager;
 
             // we check the menus in the delivered to see if our waiter is busy
             const waiterStatus = inDelivering(waiter, orders);
