@@ -1,20 +1,27 @@
-const ordersManager = require('../../manager/orders');
+const orderManager = require('../../manager/orders');
 // We recover the next available order day.
 async function recoverOrderDay(orders) {
+
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
     const orderDaySelect = await orders.getDeliveredDate(dateDayNow);
-    const orderDay = (orderDaySelect !== "false") ? orderDaySelect.length + 1 : 1; /// revisar empty
+    // If you don't have orders that day we start one
+    const orderDay = orderDaySelect.rows ? orderDaySelect.rows.length + 1 : 1; 
+
     return orderDay;
 }
 
 // we retrieve order day and insert the order
 async function checkOrders(newOrders, orders) {
-    let checkOrdersDay; 
+
+    let checkOrdersDay = [];
+    const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
     const orderDay = await recoverOrderDay(orders); // recover the next available order day.
 
     for (i=0; newOrders.length > i; i++) {
-        newOrders[i].orderDay = orderDay;
-        checkOrdersDay.push(await orders.insertOrders(newOrders[i]))
+        newOrders[i].order_day = orderDay;
+        newOrders[i].date_order = dateDayNow;
+        //const resp = await orders.postNewOrder(newOrders[i])
+        checkOrdersDay.push(await orders.postNewOrder(newOrders[i]));
     }
 
     return (checkOrdersDay.includes("false")) ? "false" : newOrders;
@@ -23,14 +30,17 @@ async function checkOrders(newOrders, orders) {
 /// process
 async function postNewOrder(req, res) {
     try {
-        const orders = new ordersManager;
+        console.log('Aqui que hay??',orderManager)
+        const orders = new orderManager;
+        console.log('Aqui debe estar presentando la info:',orders)
         const { order } = req.body;
-        const statuOrder = await checkOrders(order, orders); // 
+        console.log(req.body.order)
+        const statusOrder = await checkOrders(order, orders); 
 
-        if (statuOrder) {
-            res.status(201).json({"orders": statuOrder}); /// check res
+        if (statusOrder) {
+            res.status(201).json({"orders": statusOrder}); 
         } else {
-            res.status(204).json("Error"); /// check res
+            res.status(204).json("Error"); 
         }
     } catch (err) {
         res.status(500).json("Server Error");

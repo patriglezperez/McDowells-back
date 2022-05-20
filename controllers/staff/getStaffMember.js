@@ -3,12 +3,12 @@ const staffManager = require('../../manager/staff');
 async function getStaffMember(req, res) {
     try {
         const staff = new staffManager;
-        console.log(staff)
-        console.log(req.params.uuid_staff)
-        const member = await staff.getStaffMember(req.params.uuid_staff);
-        console.log(member)
+        ///console.log(staff)
+        //console.log('req.params.uuid_staff-getStaffMember:', req.params.id)
+        const member = await staff.getStaffMember(req.params.id);
+        //console.log('member--getStaffMember:', member.rows[0])
         if (member) {
-            res.json({"member": member});
+            res.json({...member.rows[0]});
         } else {
             res.status(404).json("Not found");
         }

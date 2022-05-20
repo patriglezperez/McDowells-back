@@ -4,7 +4,7 @@ async function getAll(req, res) {
     try {
         const menu = new menuManager;
         console.log('this is the menu:', menu)
-        const menuAll = await menuManager.getAll();
+        const menuAll = await menu.getAll();
         console.log(menuAll)
         if (menuAll) {
             res.json({"menuAll": menuAll});

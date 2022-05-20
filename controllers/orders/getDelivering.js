@@ -1,4 +1,4 @@
-const ordersManager = require('../../manager/orders');
+const orderManager = require('../../manager/orders');
 const staffManager = require('../../manager/staff');
 
 
@@ -29,7 +29,7 @@ const staffManager = require('../../manager/staff');
 async function inDelivering(idWaiter, orders) {
     let waiterStatus = {"busy": false, "data": ""}
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
-
+    
     // we verify the orders in the delivering only those of the day
     const inDeliveringArray = await orders.getStatusWaiter(dateDayNow, "delivering", idWaiter);
     if (inDeliveringArray) {       
@@ -64,15 +64,17 @@ async function assignDelivering(idWaiter, orders) {
  * @returns {json} res
  */
 async function getDelivering(req, res) {
+    console.log('req.body-getDelivering:', req.body);
     try {
         let deliveredDay;
         // we retrieve the uuid associated with the waiter and his availability status
+        console.log('req.body-getDelivering:', req.body);
         const { waiter, status } = req.body;
         // we check if the waiter exists
         const existsWaiter = await checkWaiter(waiter); 
-
+        console.log('existsWaiter-getDelivering:', existsWaiter);
         if (existsWaiter) {
-            const orders = new ordersManager;
+            const orders = new orderManager;
 
             // we check the menus in the delivered to see if our waiter is busy
             const waiterStatus = inDelivering(waiter, orders);
