@@ -44,13 +44,15 @@ class staffManagers{
         }
     }
 
-    async postNewStaff(id, rol, name){
+    async postNewStaff(id, rol, name, status='absent'){
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
-            const newUser = await myConnection.query( `INSERT INTO staffs (uuid_staff, rol, name ) VALUES('${id}', '${rol}', '${name}')`);
+            console.log(id, rol, name);
+            const newUser = await myConnection.query( `INSERT INTO staffs (uuid_staff, rol, statuss, names ) VALUES('${id}', '${rol}', '${status}', '${name}')`);
             return newUser
         } catch (error) {
+            console.log(error);
             return false
         }finally{
             myConnection.end()
