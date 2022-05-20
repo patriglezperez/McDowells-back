@@ -8,7 +8,7 @@ async function getStaffMember(req, res) {
         const member = await staff.getStaffMember(req.params.id);
         //console.log('member--getStaffMember:', member.rows[0])
         if (member) {
-            res.json({"member": member.rows[0]});
+            res.json({...member.rows[0]});
         } else {
             res.status(404).json("Not found");
         }
