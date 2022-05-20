@@ -1,10 +1,10 @@
-const ordersManager = require('../../manager/orders');;
+const orderManager = require('../../manager/orders');;
 
 async function patchPaused(req, res) {
     try {
         const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
-        const orders = new ordersManager;
-        const updateMenu = await orders.updateByOrderDayUuiMenu(req.params.orderDay, dateDayNow, "Paused");
+        const orders = new orderManager;
+        const updateMenu = await orders.putStatus(req.params.orderDay, dateDayNow, "Paused");
         if (updateMenu) { 
             res.json({"updateMenu": updateMenu});
         } else {

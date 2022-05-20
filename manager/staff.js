@@ -1,7 +1,7 @@
 const { Staff } = require ("../models/staff");
 const mcdowellConnection = require("../database/connection");
 
-class staffManagers{
+class staffManager{
     async getStaff (){
         const myConnection = mcdowellConnection()
         await myConnection.connect();
@@ -15,7 +15,7 @@ class staffManagers{
         }
     }
 
-    async getStaffMemeber(id) {
+    async getStaffMember(id) {
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
@@ -48,7 +48,7 @@ class staffManagers{
         const myConnection = mcdowellConnection()
         await myConnection.connect();
         try {
-            const newUser = await myConnection.query( `INSERT INTO staffs (uuid_staff, rol, name ) VALUES('${id}', '${rol}', '${name}')`);
+            const newUser = await myConnection.query( `INSERT INTO staffs(uuid_staff, rol, name ) VALUES('${id}', '${rol}', '${name}')`);
             return newUser
         } catch (error) {
             return false
@@ -70,16 +70,17 @@ class staffManagers{
         }
     }
 
-    async patchStatusMember(uuid_staff, statuss){
+    async patchStatusMember(uuid_staff, statuss) {
+        console.log('kaka--patchStatusMember:', uuid_staff, 'statuss:', statuss)
         const myConnection = mcdowellConnection()
-        await myConnection.connect();
-        try{
-           const statusMember = await myConnection.query(`UPDATE staffs SET statuss = '${statuss}' WHERE uuid_staff = '${uuid_staff}';`);
-           return statusMember;
-       } catch (error) {
-           return false
-       } finally{
-        myConnection.end()
+        try {   
+            await myConnection.connect();
+            const statusMember = await myConnection.query(`UPDATE staffs SET statuss = '${statuss}' WHERE uuid_staff = '${uuid_staff}';`);
+            return statusMember;
+        } catch (error) {
+            return false
+        } finally   {
+            myConnection.end()
         }
     }
 
@@ -97,4 +98,4 @@ class staffManagers{
     }
 }
 
-module.exports = staffManagers
+module.exports = staffManager

@@ -1,10 +1,13 @@
-const staffManager = require('../../manager/menu');
+const staffManager = require('../../manager/staff');
 
 async function patchStatus(req, res) {
     try {
         const staff = new staffManager;
-        const { uuid_staff, statuss } = req.body;
-        const memberStatus = await staff.patchStatusMember(uuid_staff, statuss);
+        console.log('req.body-patchStatus:',req.body);
+        const { id, statuss } = req.body;
+        console.log('req.body-patchStatus--id:', id, 'statuss:', statuss)
+        const memberStatus = await staff.patchStatusMember(id, statuss);
+        //console.log('memberStatus-patchStatus:', memberStatus);
         if (memberStatus) {
             res.json();
         } else {

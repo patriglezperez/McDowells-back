@@ -1,4 +1,3 @@
-const { Orders } = require ("../models/orders");
 const mcdowellConnection = require("../database/connection");
 
 class orderManager{
@@ -8,7 +7,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const today = await myConnection.query(`SELECT * FROM orders WHERE order_day = '${date}';`)
+            const today = await myConnection.query(`SELECT order_day FROM orders WHERE date_order = '${date}' GROUP BY order_day;`)
             return today
         } catch (error) {
             return false
@@ -22,8 +21,9 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const history = await myConnection.query(`SELECT * FROM orders LIMIT '${rows}' ORDER BY desc;`
-            )
+            const history = await myConnection.query(`SELECT * FROM orders ORDER BY date_order DESC  LIMIT ${rows};`
+            );
+            return history
         } catch (error) {
             return false
         }finally{
@@ -32,11 +32,13 @@ class orderManager{
     }
 
     //getStatus
-    async getByStatus(active){
+    async getStatus(active){
+        console.log('what is active?')
         const myConnection = mcdowellConnection()
         await myConnection.connect()
+        console.log('what is active?')
         try {
-            const activeStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${active}';`);
+            const activeStatus = await myConnection.query(`SELECT * FROM orders WHERE statuss = '${active}' ;`);
             return activeStatus
         } catch (error) {
             return false
@@ -78,7 +80,7 @@ class orderManager{
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const getDay = await myConnection.query(`SELECT * FROM orders WHERE order_day = '${orderDay}' ;`)
+            const getDay = await myConnection.query(`SELECT * FROM orders WHERE date_order = '${orderDay}' ;`)
             return getDay
         } catch (e) {
             return false
@@ -131,10 +133,12 @@ class orderManager{
 
     //postNewOrder
     async postNewOrder(data){
+        console.log(data)
         const myConnection = mcdowellConnection()
         await myConnection.connect()
+        
         try {
-            const newOrder = await myConnection.query(`INSERT INTO orders (serial_order, order_day, uuid_menu, uuid_user, menu_num, statuss, chef, waiter, order_notes, date_order) ('${data.serial_order}','${data.order_day}','${data.uuid_menu}','${data.uuid_user}','${data.menu_num}','${data.statuss}','${data.chef}','${data.waiter}','${data.order_notes}','${data.date_order}');`)
+            const newOrder = await myConnection.query(`INSERT INTO orders (order_day, uuid_menu, uuid_user, menu_num, statuss, date_order) VALUES ('${data.order_day}','${data.uuid_menu}','${data.uuid_user[0]}','${data.menu_num}','${data.status}','${data.date_order}');`)
             return newOrder
         } catch (error) {
             return false
@@ -159,6 +163,7 @@ class orderManager{
 
     //sub function -->getKitchenProcess
     async getMenuByStatus(statuss, date){
+        console.log('getMenuByStatus:', statuss, date);
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
@@ -172,12 +177,14 @@ class orderManager{
     }
 
     async patchOrderCook(id, kitchen, cook){
+        console.log('patchOrderCook:',id, kitchen, cook);
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
-            const orderCook = await myConnection.query(`UPDATE orders SET chef = '${cook}', statuss = '${kitchen}' WHERE uuid_menu = '${id}';`);
+            const orderCook = await myConnection.query(`UPDATE orders SET chef = '${cook[0]}', statuss = '${kitchen}', order_notes = '${cook}' WHERE uuid_menu = '${id}';`);
             return orderCook;
         } catch (error) {
+            console.log('patchOrderCook--error:', error)
             return false
         }finally{
             myConnection.end()
@@ -186,10 +193,12 @@ class orderManager{
 
     //getKitchen
     async getByDateByStatus(date, kitchen){
+        console.log('getByDateByStatus:',date, kitchen)
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
             const petition = await myConnection.query(`Select * FROM orders WHERE date_order = '${date}' AND statuss = '${kitchen}';`)
+            return petition;
         } catch (error) {
             return false
         }finally{
@@ -210,6 +219,48 @@ class orderManager{
         }
     }
 
+    //patchCancelled
+    async patchCancelled (order, dateNow, cancelled){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect()
+        try {
+            const patchStat = myConnection.query(`SELECT * FROM orders WHERE order_day = '${order}' AND statuss = '${cancelled} AND date_order = ${dateNow}';`);
+            return patchStat
+        } catch (error) {
+            return false;
+        } finally{
+            myConnection.end()
+        }
+    }
+
+    //patchFinish
+    async patchFinish (order, dateNow, finished){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect()
+        try {
+            const patchStat = myConnection.query(`SELECT * FROM orders WHERE order_day = '${order}' AND statuss = '${finished} AND date_order = ${dateNow}';`);
+            return patchStat
+        } catch (error) {
+            return false;
+        } finally{
+            myConnection.end()
+        }
+    }
+
+    //patchFinish
+    async patchPaused(order, dateNow, paused){
+        const myConnection = mcdowellConnection()
+        await myConnection.connect()
+        try {
+            const patchStat = myConnection.query(`SELECT * FROM orders WHERE order_day = '${order}' AND statuss = '${paused} AND date_order = ${dateNow}';`);
+            return patchStat
+        } catch (error) {
+            return false;
+        } finally{
+            myConnection.end()
+        }
+    }
+
 }
 
-module.exports = orderManager
+module.exports = orderManager;
