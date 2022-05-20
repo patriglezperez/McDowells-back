@@ -50,12 +50,14 @@ class orderManager{
 
     //sub function --> getDelivering
     async patchDeliveryDateWaiter(date, order, waiter){
+        console.log('patchDeliveryDateWaiter:', date, order, waiter)
         const myConnection = mcdowellConnection()
         await myConnection.connect()
         try {
             const delivery = await myConnection.query(`UPDATE orders SET waiter = '${waiter}' WHERE order_day = '${order}' AND date_order = '${date}';`);
             return delivery;
         } catch (error) {
+            console.log('patchDeliveryDateWaiter:', error)
             return false
         }finally{
             myConnection.end()
@@ -66,10 +68,13 @@ class orderManager{
     async assignDelivering(date, statuss, row){
         const myConnection = mcdowellConnection()
         await myConnection.connect()
+        console.log('assignDelivering:',date, statuss, row)
         try {
-            const delivery = await myConnection.query(`SELECT * FROM orders WHERE date_order = '${date}' AND statuss = '${statuss}' AND LIMIT '${row}'  AND waiter = null;` );
+            const delivery = await myConnection.query(`SELECT * FROM orders WHERE date_order = '${date}' AND statuss = '${statuss}' FETCH FIRST ROW ONLY ;`); //AND waiter = 'null'
+            console.log('assignDelivering:',delivery.rows);
             return delivery;
         } catch (error) {
+            console.log('assignDelivering:',error)
             return false
         }finally{
             myConnection.end()
