@@ -52,7 +52,7 @@ INSERT INTO staffs(uuid_staff, email, passwords, statuss, rol, names) VALUES
 ('85d8d9ba-c6a0-4adb-acf9-4d011a4762e4', 'maestre7@gmail.com', '123a123A', 'absent', 'cook', 'Alfredo'),
 ('62cbad01-09b4-401d-8c17-a09f755c8558', 'marcorooksp@gmail.com', '123a123A', 'absent', 'admin', 'Marco');
 
-INSERT INTO order(serial_orde,
+INSERT INTO order(serial_order,
     order_day,
     uuid_menu uuid,
     uuid_user,
