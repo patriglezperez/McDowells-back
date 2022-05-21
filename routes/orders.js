@@ -8,6 +8,7 @@ router.get("/delivery/delivered", require("../controllers/orders/getDeliveredDat
 router.get("/delivering", require("../controllers/orders/getDelivering"));
 router.get("/track/history", require("../controllers/orders/getOrderHistory")); 
 
+router.patch("/delivering", require("../controllers/orders/patchDelivering"));
 router.patch("/kitchen", require("../controllers/orders/patchKitchenProcess"));
 router.patch("/stop/:id", require("../controllers/orders/patchPaused"));
 router.patch("/cancel/:id", require("../controllers/orders/patchCancelled"));

@@ -2,8 +2,8 @@ CREATE DATABASE mcdowells;
 
 CREATE TABLE staffs(
     uuid_staff VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    passwords VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    passwords VARCHAR(255),
     rol VARCHAR(255) NOT NULL,
     statuss VARCHAR(255) NOT NULL,
     names VARCHAR(255) NOT NULL,
