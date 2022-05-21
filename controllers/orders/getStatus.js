@@ -1,15 +1,14 @@
 const orderManager = require('../../manager/orders');
 
 async function getStatus(req, res){
+    console.log("what can i see")
     try {
         const orders = new orderManager;
-        console.log('what is this', orders)
         const activeOrders = await orders.getStatus(req.params.status);
-        console.log("what is this Active orders:", req.params)
         if (activeOrders) {
             res.json({"activeOrders": activeOrders});
         } else {
-            res.status(404).json("Not found msmafmsmfsmfm");
+            res.status(404).json("Not found fuuuuuuck");
         }
     } catch (err) {
         res.status(500).json("Server Error");

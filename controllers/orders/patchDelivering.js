@@ -29,7 +29,7 @@ const staffManager = require('../../manager/staff');
 async function inDelivering(idWaiter, orders) {
     let waiterStatus = {"busy": false, "data": ""}
     const dateDayNow = (new Date()).toISOString().split("T")[0]; // YYYY-MM-DD now
-
+    
     // we verify the orders in the delivering only those of the day
     const inDeliveringArray = await orders.getStatusWaiter(dateDayNow, "delivering", idWaiter);
     //console.log('inDelivering-inDeliveringArray:', inDeliveringArray);

@@ -2,11 +2,11 @@ let router  = require('express').Router();
 
 
 router.get("/:id", require("../controllers/orders/getOrder"));
-router.get("/:status", require("../controllers/orders/getStatus")); 
-router.get("/delivered", require("../controllers/orders/getDeliveredDate")); 
+router.get("/status/:status", require("../controllers/orders/getStatus")); 
+router.get("/delivery/delivered", require("../controllers/orders/getDeliveredDate")); 
 //router.get("/kitchen", require("../controllers/orders/getKitchenProcess"));
-//router.get("/delivering", require("../controllers/orders/getDelivering"));
-router.get("/history", require("../controllers/orders/getOrderHistory")); 
+router.get("/delivering", require("../controllers/orders/getDelivering"));
+router.get("/track/history", require("../controllers/orders/getOrderHistory")); 
 
 router.patch("/delivering", require("../controllers/orders/patchDelivering"));
 router.patch("/kitchen", require("../controllers/orders/patchKitchenProcess"));
